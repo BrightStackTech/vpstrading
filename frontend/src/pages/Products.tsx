@@ -1,107 +1,66 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaSearch, FaShoppingCart, FaStar } from 'react-icons/fa';
-
-interface Product {
-  id: number;
-  name: string;
-  category: string;
-  price: string;
-  image: string;
-  description: string;
-  rating: number;
-}
+import { motion } from 'framer-motion';
+import { FaSearch } from 'react-icons/fa';
+import { useSearchParams } from 'react-router-dom';
+import ProductCard from '../components/ProductCard';
+import { products, categories as productCategories } from '../data/products';
 
 const Products: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [shuffledProducts, setShuffledProducts] = useState(products);
+  
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const searchTerm = searchParams.get('search') || '';
+  const selectedCategory = searchParams.get('category') || 'All Categories';
+  const productsPerPage = 20;
 
-  const categories = ['All', 'Electronics', 'Building Materials', 'Industrial', 'Office Supplies'];
+  const setSearchTerm = (value: string) => {
+    const params: Record<string, string> = { page: '1' };
+    if (value) params.search = value;
+    if (selectedCategory !== 'All Categories') params.category = selectedCategory;
+    setSearchParams(params);
+  };
 
-  const products: Product[] = [
-    {
-      id: 1,
-      name: 'Professional Laptop',
-      category: 'Electronics',
-      price: 'AED 3,500',
-      image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800',
-      description: 'High-performance laptop for business needs',
-      rating: 5,
-    },
-    {
-      id: 2,
-      name: 'Office Desk',
-      category: 'Office Supplies',
-      price: 'AED 1,200',
-      image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&q=80&w=800',
-      description: 'Ergonomic office desk with storage',
-      rating: 4,
-    },
-    {
-      id: 3,
-      name: 'Steel Rods',
-      category: 'Building Materials',
-      price: 'AED 500/ton',
-      image: 'https://images.unsplash.com/photo-1535050516515-ad97d022d4c0?auto=format&fit=crop&q=80&w=800',
-      description: 'High-quality construction steel rods',
-      rating: 5,
-    },
-    {
-      id: 4,
-      name: 'Industrial Pump',
-      category: 'Industrial',
-      price: 'AED 2,800',
-      image: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&q=80&w=800',
-      description: 'Heavy-duty industrial water pump',
-      rating: 4,
-    },
-    {
-      id: 5,
-      name: 'LED Lighting System',
-      category: 'Electronics',
-      price: 'AED 450',
-      image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&q=80&w=800',
-      description: 'Energy-efficient LED lighting solution',
-      rating: 5,
-    },
-    {
-      id: 6,
-      name: 'Conference Table',
-      category: 'Office Supplies',
-      price: 'AED 2,500',
-      image: 'https://images.unsplash.com/photo-1611269154421-4e27233ac5c7?auto=format&fit=crop&q=80&w=800',
-      description: 'Large conference table for meetings',
-      rating: 4,
-    },
-    {
-      id: 7,
-      name: 'Cement Bags',
-      category: 'Building Materials',
-      price: 'AED 25/bag',
-      image: 'https://images.unsplash.com/photo-1587582423116-432d6fe34265?auto=format&fit=crop&q=80&w=800',
-      description: 'Premium quality construction cement',
-      rating: 5,
-    },
-    {
-      id: 8,
-      name: 'Power Generator',
-      category: 'Industrial',
-      price: 'AED 8,500',
-      image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=800',
-      description: 'Reliable backup power generator',
-      rating: 5,
-    },
-  ];
+  const setSelectedCategory = (value: string) => {
+    const params: Record<string, string> = { page: '1' };
+    if (searchTerm) params.search = searchTerm;
+    if (value !== 'All Categories') params.category = value;
+    setSearchParams(params);
+  };
 
-  const filteredProducts = products.filter((product) => {
+  const setCurrentPage = (page: number) => {
+    const params: Record<string, string> = { page: page.toString() };
+    if (searchTerm) params.search = searchTerm;
+    if (selectedCategory !== 'All Categories') params.category = selectedCategory;
+    setSearchParams(params);
+  };
+
+  // Shuffle products when "All Categories" is selected on mount
+  React.useEffect(() => {
+    const shuffled = [...products].sort(() => Math.random() - 0.5);
+    setShuffledProducts(shuffled);
+  }, []);
+
+  const filteredProducts = (selectedCategory === 'All Categories' ? shuffledProducts : products).filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+                         product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.details.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'All Categories' || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
+  // Pagination
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + productsPerPage);
+
+  // Scroll to top when page changes
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   return (
-    <div className="min-h-screen pt-28 pb-20">
+    <div className="min-h-screen pt-28 pb-20 bg-blue-50 dark:bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -110,12 +69,12 @@ const Products: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Catalog</span>
+          <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Product Catalog</span>
           <h1 className="mt-3 text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-4">
-            Curated For Excellence
+            5000+ Consumer Products
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Explore our wide range of premium products sourced from top global manufacturers.
+            Browse our extensive range of FMCG products - from daily essentials to premium brands. Wholesale pricing available.
           </p>
         </motion.div>
 
@@ -141,7 +100,7 @@ const Products: React.FC = () => {
 
               {/* Category Filter */}
               <div className="flex overflow-x-auto pb-2 md:pb-0 gap-2 w-full md:w-auto no-scrollbar">
-                {categories.map((category) => (
+                {productCategories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
@@ -160,72 +119,85 @@ const Products: React.FC = () => {
         </div>
 
         {/* Products Grid */}
-        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          <AnimatePresence>
-            {filteredProducts.map((product) => (
-              <motion.div
-                layout
-                key={product.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="group bg-white dark:bg-surface-900 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-primary-500/30 dark:hover:border-primary-500/30 transition-all duration-300"
-              >
-                {/* Product Image */}
-                <div className="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-800">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute top-4 right-4 bg-white/90 dark:bg-black/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
-                    <FaStar className="text-yellow-400 text-xs" />
-                    <span className="text-xs font-bold text-slate-900 dark:text-white">
-                      {product.rating}.0
-                    </span>
-                  </div>
-                  
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <button className="px-6 py-2 bg-white text-slate-900 rounded-full font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      View Details
-                    </button>
-                  </div>
-                </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {paginatedProducts.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              index={index}
+              showPrice={true}
+              showRating={true}
+              showCart={true}
+            />
+          ))}
+        </div>
 
-                {/* Product Info */}
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <span className="text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider">
-                        {product.category}
-                      </span>
-                      <h3 className="text-lg font-display font-bold text-slate-900 dark:text-white mt-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                        {product.name}
-                      </h3>
-                    </div>
-                  </div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col gap-4 items-center mt-12"
+          >
+            {/* Page Info - Mobile */}
+            <span className="text-sm text-slate-600 dark:text-slate-400 md:hidden">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 md:px-4 py-2 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-md text-sm md:text-base"
+              >
+                Prev
+              </button>
+              
+              <div className="flex gap-1 md:gap-2">
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
                   
-                  <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2">
-                    {product.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
-                    <span className="text-xl font-bold text-slate-900 dark:text-white">
-                      {product.price}
-                    </span>
+                  return (
                     <button
-                      className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-primary-600 hover:text-white dark:hover:bg-primary-500 transition-colors"
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-9 h-9 md:w-10 md:h-10 rounded-lg font-medium transition-all shadow-md text-sm md:text-base ${
+                        currentPage === pageNum
+                          ? 'bg-primary-600 text-white'
+                          : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700'
+                      }`}
                     >
-                      <FaShoppingCart size={16} />
+                      {pageNum}
                     </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+                  );
+                })}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 md:px-4 py-2 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-md text-sm md:text-base"
+              >
+                Next
+              </button>
+            </div>
+
+            {/* Detailed Info - Desktop Only */}
+            <span className="hidden md:block text-sm text-slate-600 dark:text-slate-400">
+              Showing {paginatedProducts.length} of {filteredProducts.length} products
+            </span>
+          </motion.div>
+        )}
 
         {/* No Results */}
         {filteredProducts.length === 0 && (

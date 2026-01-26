@@ -6,32 +6,32 @@ const About: React.FC = () => {
   const values = [
     {
       icon: FaHeart,
-      title: 'Customer Centric',
-      description: 'We prioritize customer satisfaction in every decision we make.',
+      title: 'Customer First',
+      description: 'Your success is our priority - reliable supply, competitive prices, on-time delivery.',
     },
     {
       icon: FaAward,
-      title: 'Excellence',
-      description: 'Committed to delivering only the highest quality products.',
+      title: 'Quality Products',
+      description: 'Only authentic brands and certified goods that meet UAE standards.',
     },
     {
       icon: FaUsers,
-      title: 'Integrity',
-      description: 'Transparent collaboration and mutual respect drive our success.',
+      title: 'Trusted Partner',
+      description: 'Building long-term relationships based on transparency and reliability.',
     },
     {
       icon: FaGlobe,
-      title: 'Global Reach',
-      description: 'Meeting international standards in all our global operations.',
+      title: 'Wide Network',
+      description: 'Serving 800+ retailers across UAE with expanding GCC distribution.',
     },
   ];
 
   const milestones = [
-    { year: '2014', title: 'Foundation', description: 'VPS General Trading established in Dubai, setting a new benchmark.' },
-    { year: '2016', title: 'Expansion', description: 'Expanded operations across UAE with new warehousing facilities.' },
-    { year: '2019', title: '500+ Clients', description: 'Reached a major milestone of serving 500 satisfied enterprise clients.' },
-    { year: '2022', title: 'Regional Growth', description: 'Extended logistics and services to wider GCC countries.' },
-    { year: '2026', title: 'Industry Leader', description: 'Recognized as a leading trading partner in the Middle East region.' },
+    { year: '2014', title: 'Foundation', description: 'VPS General Trading launched in Dubai with 50 product SKUs.' },
+    { year: '2016', title: 'Warehouse Expansion', description: 'Opened 10,000 sq ft warehouse facility in Dubai Industrial Area.' },
+    { year: '2019', title: '500+ Retail Partners', description: 'Supplying to supermarkets, groceries, and retail chains across UAE.' },
+    { year: '2022', title: '5000+ Products', description: 'Expanded catalog to include all major FMCG categories and brands.' },
+    { year: '2026', title: '800+ Partners', description: 'Leading FMCG distributor with GCC-wide distribution network.' },
   ];
 
   const team = [
@@ -55,7 +55,7 @@ const About: React.FC = () => {
   return (
     <div className="min-h-screen overflow-hidden pt-20">
       {/* Hero Section */}
-      <section className="relative py-24 bg-surface-50 dark:bg-black overflow-hidden">
+      <section className="relative py-24 bg-blue-100 dark:bg-blue-950 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.1)_0%,transparent_50%)]" />
         </div>
@@ -69,20 +69,20 @@ const About: React.FC = () => {
           >
             <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Since 2014</span>
             <h1 className="mt-4 text-4xl md:text-6xl lg:text-7xl font-display font-bold text-slate-900 dark:text-white mb-8">
-              Building Bridges <br />
+              Your Trusted <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">
-                To Global Markets
+                FMCG Distributor
               </span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed opacity-90">
-              VPS General Trading enables businesses to thrive by providing seamless access to quality products and logistical excellence.
+              VPS General Trading supplies quality consumer goods to retailers, supermarkets, and businesses across the UAE and GCC region.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 relative">
+      <section className="py-20 relative bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             <motion.div
@@ -104,8 +104,8 @@ const About: React.FC = () => {
                   Our Mission
                 </h2>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                  To provide superior quality products and services that exceed customer expectations,
-                  while maintaining the highest standards of integrity, reliability, and professionalism.
+                  To be the preferred FMCG distributor by ensuring consistent supply of quality consumer goods,
+                  competitive pricing, and reliable delivery to help our partners grow their businesses.
                 </p>
               </div>
             </motion.div>
@@ -129,8 +129,8 @@ const About: React.FC = () => {
                   Our Vision
                 </h2>
                 <p className="text-slate-300 leading-relaxed">
-                  To be the leading general trading company in the region, recognized for our
-                  commitment to excellence, innovation, and sustainable growth creating lasting value.
+                  To be the leading FMCG distributor in the GCC, known for our extensive product range,
+                  efficient distribution network, and unwavering commitment to customer satisfaction.
                 </p>
               </div>
             </motion.div>
@@ -139,7 +139,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Core Values */}
-      <section className="py-24 bg-white dark:bg-surface-950">
+      <section className="py-24 bg-green-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -182,7 +182,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Timeline */}
-      <section className="py-24 bg-surface-50 dark:bg-black">
+      <section className="py-24 bg-blue-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -240,7 +240,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Team Section */}
-      <section className="py-24 bg-white dark:bg-surface-950">
+      <section className="py-24 bg-green-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -1,37 +1,82 @@
-import React from 'react';
-import { motion, type Variants } from 'framer-motion';
-import { FaShippingFast, FaHeadset, FaCertificate, FaHandshake, FaArrowRight, FaGlobe } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { motion, type Variants, AnimatePresence } from 'framer-motion';
+import { FaShippingFast, FaHeadset, FaCertificate, FaHandshake, FaArrowRight, FaGlobe, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Globe from '../components/Globe';
+import ProductCard from '../components/ProductCard';
+import { featuredProducts } from '../data/products';
 
 const Home: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroImages = [
+    {
+      url: 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&q=80&w=2070',
+      alt: 'Retail Store Shelves'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&q=80&w=2070',
+      alt: 'Warehouse Distribution'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=2070',
+      alt: 'Product Shelves'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1601598851547-4302969d0614?auto=format&fit=crop&q=80&w=2070',
+      alt: 'Shopping Cart'
+    }
+  ];
+
+  // Auto-rotate carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  // Features data
   const features = [
     {
       icon: FaShippingFast,
-      title: 'Global Logistics',
-      description: 'Seamless delivery network covering major trade routes across the Middle East and beyond.',
+      title: 'Fast Distribution',
+      description: 'Efficient supply chain delivering FMCG products across UAE and GCC markets within 24-48 hours.',
     },
     {
       icon: FaHeadset,
-      title: 'Premium Support',
-      description: 'Dedicated account managers available 24/7 to ensure your operations never stop.',
+      title: 'Dedicated Support',
+      description: 'Expert team handling orders, inventory, and logistics for seamless retail operations.',
     },
     {
       icon: FaCertificate,
-      title: 'Certified Quality',
-      description: 'ISO certified sourcing processes guaranteeing top-tier product standards.',
+      title: 'Quality Assurance',
+      description: 'All products comply with UAE food safety standards and international quality certifications.',
     },
     {
       icon: FaHandshake,
-      title: 'Strategic Partnership',
-      description: 'We build rigorous, long-term alliances to drive mutual growth and success.',
+      title: 'Reliable Partner',
+      description: 'Consistent supply of consumer goods ensuring your shelves are always stocked.',
     },
   ];
 
   const stats = [
-    { number: '500+', label: 'Enterprise Clients' },
-    { number: '10k+', label: 'Products Sourced' },
-    { number: '12+', label: 'Years Excellence' },
-    { number: '24/7', label: 'Support Coverage' },
+    { number: '800+', label: 'Retail Partners' },
+    { number: '5000+', label: 'Product SKUs' },
+    { number: '12+', label: 'Years in Trading' },
+    { number: '24-48h', label: 'Delivery Time' },
   ];
 
   const containerVariants: Variants = {
@@ -61,43 +106,100 @@ const Home: React.FC = () => {
     <div className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Abstract Background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-200/20 dark:bg-primary-900/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-[float_10s_ease-in-out_infinite]" />
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary-200/20 dark:bg-secondary-900/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-[float_8s_ease-in-out_infinite_reverse]" />
-          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        {/* Image Carousel Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <AnimatePresence initial={false} custom={currentSlide}>
+            <motion.div
+              key={currentSlide}
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ 
+                type: 'tween',
+                ease: 'easeInOut',
+                duration: 0.6
+              }}
+              className="absolute inset-0"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent z-10" />
+              <img
+                src={heroImages[currentSlide].url}
+                alt={heroImages[currentSlide].alt}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Abstract Overlay */}
+          <div className="absolute inset-0 z-20">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-500/10 dark:bg-primary-900/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-[float_10s_ease-in-out_infinite]" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary-500/10 dark:bg-secondary-900/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-[float_8s_ease-in-out_infinite_reverse]" />
+          </div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        {/* Navigation Arrows */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 dark:hover:bg-black/30 transition-all shadow-xl group"
+          aria-label="Previous slide"
+        >
+          <FaChevronLeft className="text-lg md:text-xl group-hover:-translate-x-1 transition-transform" />
+        </button>
+
+        <button
+          onClick={nextSlide}
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 dark:hover:bg-black/30 transition-all shadow-xl group"
+          aria-label="Next slide"
+        >
+          <FaChevronRight className="text-lg md:text-xl group-hover:translate-x-1 transition-transform" />
+        </button>
+
+        {/* Dot Navigation */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`transition-all ${
+                currentSlide === index
+                  ? 'w-12 h-3 bg-white rounded-full'
+                  : 'w-3 h-3 bg-white/50 rounded-full hover:bg-white/75'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-20 z-20">
+          <div className="grid lg:grid-cols-1 gap-16 items-center">
             {/* Text Content */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="text-center lg:text-left z-10"
+              className="text-center z-10"
             >
-              <motion.div variants={itemVariants} className="inline-flex items-center px-4 py-2 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-300 font-medium text-sm mb-6 border border-primary-100 dark:border-primary-800">
-                <FaGlobe className="mr-2" /> Global Trading Solutions
+              <motion.div variants={itemVariants} className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md text-white font-medium text-sm mb-6 border border-white/20">
+                <FaGlobe className="mr-2" /> Your FMCG Trading Partner
               </motion.div>
               
-              <motion.h1 variants={itemVariants} className="text-5xl lg:text-7xl font-display font-bold text-slate-900 dark:text-white mb-6 leading-tight">
-                Trading with <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-secondary-600 to-primary-600 bg-[length:200%_auto] animate-[gradient_4s_linear_infinite]">
-                  Precision
+              <motion.h1 variants={itemVariants} className="text-5xl lg:text-7xl font-display font-bold text-white mb-6 leading-tight drop-shadow-2xl">
+                Quality Products, <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-secondary-300 to-primary-300 bg-[length:200%_auto] animate-[gradient_4s_linear_infinite]">
+                  Delivered Daily
                 </span>
               </motion.h1>
 
-              <motion.p variants={itemVariants} className="text-xl text-slate-600 dark:text-slate-300 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                Connect your business to the world's finest markets. We bridge the gap between quality manufacturers and businesses that demand excellence.
+              <motion.p variants={itemVariants} className="text-xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
+                Connecting retailers, supermarkets, and businesses with premium consumer goods. From food & beverages to household essentials - we supply it all.
               </motion.p>
 
-              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/products" className="group">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-semibold shadow-lg hover:shadow-primary-500/25 transition-all flex items-center justify-center space-x-2"
+                    className="w-full sm:w-auto px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all flex items-center justify-center space-x-2"
                   >
                     <span>Discover Catalog</span>
                     <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
@@ -108,43 +210,215 @@ const Home: React.FC = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-xl font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
+                    className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-xl font-semibold hover:bg-white/20 transition-all shadow-lg"
                   >
                     Partner With Us
                   </motion.button>
                 </Link>
               </motion.div>
             </motion.div>
+          </div>
+        </div>
+      </section>
 
-            {/* Hero Visual */}
+
+      {/* Who We Are Section */}
+      <section className="py-24 bg-white dark:bg-slate-900">
+        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">About VPS Trading</span>
+            <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">
+              Who are we & What we do?
+            </h2>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="relative z-0 hidden lg:block"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white dark:border-slate-800">
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary-900/40 to-transparent mix-blend-overlay z-10" />
+              <h3 className="text-3xl md:text-4xl font-display font-bold text-slate-900 dark:text-white mb-6">
+                Leading <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">FMCG Distributor</span> in Global Markets
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 text-lg mb-6 leading-relaxed">
+                At VPS General Trading, we pride ourselves on being a premier distributor of Fast-Moving Consumer Goods (FMCG) across global markets. With years of industry expertise and a commitment to excellence, we connect quality products with consumers worldwide.
+              </p>
+              <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+                Our extensive network and strategic partnerships enable us to offer a diverse range of products while maintaining the highest standards of quality and service. We understand the dynamic nature of the FMCG sector and continuously adapt to meet evolving market demands.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex justify-center"
+            >
+              <div className="relative w-full max-w-md p-8 bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-slate-800 dark:to-slate-800 rounded-3xl border-2 border-primary-200 dark:border-primary-700 shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 dark:from-primary-500/10 dark:to-secondary-500/10 rounded-3xl" />
                 <img
-                  src="https://images.unsplash.com/photo-1486406140926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070"
-                  alt="Modern City Skyline"
-                  className="w-full h-[600px] object-cover hover:scale-105 transition-transform duration-700"
+                  src="https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png"
+                  alt="VPS General Trading Logo"
+                  className="relative w-full h-auto rounded-2xl"
                 />
-                
-                {/* Floating Glass Cards */}
-                <motion.div 
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.8 }}
-                  className="absolute bottom-8 left-8 right-8 p-6 glass rounded-2xl z-20"
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products Section */}
+      <section className="py-24 bg-blue-50 dark:bg-slate-900">
+        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Our Products</span>
+            <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">
+              Featured Products
+            </h2>
+          </motion.div>
+
+          {/* Mobile View - Static Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:hidden">
+            {featuredProducts.map((product, index) => (
+              <ProductCard
+                key={index}
+                product={product}
+                index={index}
+              />
+            ))}
+          </div>
+
+          {/* Desktop View - Carousel */}
+          <div className="relative overflow-x-hidden overflow-y-visible py-8 hidden lg:block">
+            {/* Fade edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-blue-50 dark:from-slate-900 to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-blue-50 dark:from-slate-900 to-transparent z-10" />
+            
+            {/* Seamless scrolling products */}
+            <div className="flex animate-[scroll_10s_linear_infinite] gap-8">
+              {[...featuredProducts, ...featuredProducts].map((product, index) => (
+                <div key={index} className="flex-shrink-0 w-72">
+                  <ProductCard
+                    product={product}
+                    index={index % featuredProducts.length}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          className='max-w-xs mx-auto px-6 sm:px-6 lg:px-8 mt-16'>
+          <Link to="/products">
+              <button  className="w-full py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105 transform hover:cursor-pointer animate-bounce">
+                  View All Products
+              </button>   
+          </Link>
+        </motion.div>
+      </section>
+
+      {/* Global Exporter Section */}
+      <section className="py-24 bg-green-50 dark:bg-slate-900">
+        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Worldwide Reach</span>
+            <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">
+              Global Exporter
+            </h2>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex justify-center order-1 lg:order-1"
+            >
+              <div className="relative w-full max-w-[400px] md:max-w-[500px] lg:max-w-[600px] mx-auto">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-secondary-500/20 dark:from-primary-500/10 dark:to-secondary-500/10 rounded-full blur-3xl" />
+                <Globe className="relative w-full" />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="order-2 lg:order-2"
+            >
+              <h3 className="text-3xl md:text-4xl font-display font-bold text-slate-900 dark:text-white mb-6">
+                Connecting <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">Global Markets</span>
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 text-lg mb-8 leading-relaxed">
+                At VPS General Trading, we pride ourselves on being a premier distributor of Fast-Moving Consumer Goods (FMCG) across global markets. With years of industry expertise and a commitment to excellence, we connect quality products with consumers worldwide.
+              </p>
+              <p className="text-slate-600 dark:text-slate-300 text-lg mb-12 leading-relaxed">
+                Our extensive network and strategic partnerships enable us to offer a diverse range of products while maintaining the highest standards of quality and service. We understand the dynamic nature of the FMCG sector and continuously adapt to meet evolving market demands.
+              </p>
+
+              <div className="grid grid-cols-2 gap-8">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-lg"
                 >
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <p className="text-sm text-white/80 font-medium mb-1">Total Volume</p>
-                      <h3 className="text-3xl font-display font-bold text-white">$2.4B+</h3>
-                    </div>
-                    <div className="h-10 w-32 bg-gradient-to-t from-primary-500/50 to-transparent rounded-lg backdrop-blur-sm" />
-                  </div>
+                  <h4 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">1000+</h4>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium">Products Available</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-lg"
+                >
+                  <h4 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">50+</h4>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium">Countries Served</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                  className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-lg"
+                >
+                  <h4 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">24/7</h4>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium">Customer Support</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 }}
+                  className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-lg"
+                >
+                  <h4 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">12+</h4>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium">Years Experience</p>
                 </motion.div>
               </div>
             </motion.div>
@@ -153,8 +427,8 @@ const Home: React.FC = () => {
       </section>
 
       {/* Features Grid */}
-      <section className="py-24 bg-white dark:bg-surface-950 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 bg-blue-50 dark:bg-slate-900 relative">
+        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -176,7 +450,7 @@ const Home: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="group p-8 rounded-2xl bg-surface-50 dark:bg-surface-900 border border-transparent hover:border-primary-100 dark:hover:border-primary-900 shadow-sm hover:shadow-xl transition-all"
+                className="group p-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary-300 dark:hover:border-primary-700 shadow-lg hover:shadow-xl transition-all"
               >
                 <div className="w-14 h-14 bg-white dark:bg-slate-800 rounded-xl shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 text-primary-600 dark:text-primary-400">
                   <feature.icon className="text-2xl" />
@@ -194,12 +468,12 @@ const Home: React.FC = () => {
       </section>
 
       {/* Stats Section with Parallax Feel */}
-      <section className="py-24 relative overflow-hidden bg-white dark:bg-slate-900">
+      <section className="py-24 relative overflow-hidden bg-green-50 dark:bg-slate-900">
         <div className="absolute inset-0 opacity-20">
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat" />
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 border-t border-slate-800 pt-12">
             {stats.map((stat, index) => (
               <motion.div
@@ -222,8 +496,43 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Global Partners Section */}
+      <section className="py-24 bg-white dark:bg-slate-900">
+        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Trusted Partnerships</span>
+            <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">
+              Our Global Partners
+            </h2>
+          </motion.div>
+
+          <div className="relative overflow-hidden py-8">
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white dark:from-slate-900 to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white dark:from-slate-900 to-transparent z-10" />
+            <div className="flex animate-[scroll_30s_linear_infinite] gap-12 items-center">
+              {[
+                'Nestle', 'PepsiCo', 'Coca-Cola', 'Unilever', 'Cadbury', "Kellogg's",
+                'Nestle', 'PepsiCo', 'Coca-Cola', 'Unilever', 'Cadbury', "Kellogg's"
+              ].map((brand, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-48 h-24 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700"
+                >
+                  <span className="text-2xl font-bold text-slate-700 dark:text-slate-300">{brand}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-24 bg-surface-50 dark:bg-black">
+      <section className="py-24 bg-blue-100 dark:bg-slate-900">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-primary-600 to-secondary-600 px-6 py-16 md:px-16 md:py-20 text-center shadow-2xl">
             {/* Background Decorations */}
@@ -232,10 +541,10 @@ const Home: React.FC = () => {
             
             <div className="relative z-10">
               <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-6">
-                Ready to elevate your business?
+                Ready to stock your shelves?
               </h2>
               <p className="text-lg text-primary-50 mb-10 max-w-2xl mx-auto">
-                Join hundreds of satisfied partners who trust VPS General Trading for their sourcing and logistics needs.
+                Join 800+ retailers and businesses who trust VPS General Trading for consistent supply of quality consumer goods.
               </p>
               <Link to="/contact">
                 <motion.button

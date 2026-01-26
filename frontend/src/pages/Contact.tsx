@@ -65,8 +65,8 @@ const Contact: React.FC = () => {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section className="relative py-20 bg-surface-50 dark:bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-900/40 to-secondary-900/40" />
+      <section className="relative py-20 bg-blue-100 dark:bg-blue-950 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-600/30 to-secondary-600/30 dark:from-primary-900/40 dark:to-secondary-900/40" />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -77,10 +77,10 @@ const Contact: React.FC = () => {
             className="text-center text-slate-900 dark:text-white"
           >
             <h1 className="text-5xl md:text-7xl font-display font-bold mb-6">
-              Get in Touch
+              Let's Talk Business
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto font-light">
-              We're here to help you navigate your trading needs.
+              Stock your store with quality products. Get wholesale pricing today.
             </p>
           </motion.div>
         </div>
@@ -123,7 +123,7 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Main Content Split */}
-      <section className="pb-24">
+      <section className="pb-24 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Contact Form */}
@@ -136,10 +136,10 @@ const Contact: React.FC = () => {
               <div className="bg-white dark:bg-surface-900 p-8 md:p-12 rounded-3xl shadow-lg border border-slate-100 dark:border-slate-800">
                 <div className="mb-8">
                   <h2 className="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2">
-                    Send us a Message
+                    Request Quote
                   </h2>
                   <p className="text-slate-600 dark:text-slate-400">
-                    Our team typically responds within 2-4 business hours.
+                    Bulk orders, wholesale pricing, and business partnerships - we respond within 4 hours.
                   </p>
                 </div>
 

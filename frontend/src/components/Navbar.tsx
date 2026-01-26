@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaSun, FaMoon, FaBars, FaTimes } from "react-icons/fa";
+import { FaSun, FaMoon, FaBars, FaPhone, FaEnvelope, FaSearch } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
+import { contactDetails } from "../data/contactdetails";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onMenuClick: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   const { isDarkMode, toggleTheme } = useTheme();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
 
   // Handle scroll effect
@@ -31,9 +36,10 @@ const Navbar: React.FC = () => {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? "glass py-2" : "bg-transparent py-4"
+        scrolled ? "bg-gray-200 dark:bg-gray-900 pt-3 md:pt-2" : "bg-gray-200 dark:bg-gray-900 pt-6 md:pt-4"
       }`}
     >
+      {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -42,9 +48,14 @@ const Navbar: React.FC = () => {
               whileHover={{ rotate: 5 }}
               className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-xl shadow-lg flex items-center justify-center text-white"
             >
-              <span className="font-display font-bold text-xl md:text-2xl">
+              {/* <span className="font-display font-bold text-xl md:text-2xl">
                 V
-              </span>
+              </span> */}
+                <img
+                  src="https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png"
+                  alt="VPS General Trading Logo"
+                  className="relative w-full h-auto rounded-xl"
+                />
             </motion.div>
             <div className="flex flex-col">
               <span className="text-xl md:text-2xl font-display font-bold text-slate-800 dark:text-white leading-none">
@@ -59,9 +70,91 @@ const Navbar: React.FC = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <div className="flex items-center space-x-6 bg-white/50 dark:bg-black/20 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 dark:border-white/10 shadow-sm">
+          {/* Mobile Controls - Theme Toggle + Hamburger */}
+          <div className="md:hidden flex items-center space-x-3">
+            {/* Theme Toggle - Mobile */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleTheme}
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-yellow-400 focus:outline-none"
+              aria-label="Toggle theme"
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={isDarkMode ? "dark" : "light"}
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 20, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {isDarkMode ? <FaMoon size={18} /> : <FaSun size={18} />}
+                </motion.div>
+              </AnimatePresence>
+            </motion.button>
+
+            {/* Hamburger Menu - Mobile */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onMenuClick}
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-primary-400 focus:outline-none"
+              aria-label="Open menu"
+            >
+              <FaBars size={18} />
+            </motion.button>
+          </div>
+
+          {/* Desktop Right Side - Contact Info + Theme Toggle */}
+          <div className="hidden md:flex items-center space-x-4">
+            {/* Phone */}
+            <a 
+              href={`tel:${contactDetails.phone}`}
+              className="flex items-center space-x-2 text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            >
+              <FaPhone size={14} />
+              <span className="text-sm font-medium">{contactDetails.phoneDisplay}</span>
+            </a>
+
+            {/* Email */}
+            <a 
+              href={`mailto:${contactDetails.email}`}
+              className="flex items-center space-x-2 text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            >
+              <FaEnvelope size={14} />
+              <span className="text-sm font-medium">{contactDetails.email}</span>
+            </a>
+
+            {/* Theme Toggle - Desktop */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleTheme}
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-yellow-400 focus:outline-none"
+              aria-label="Toggle theme"
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={isDarkMode ? "dark" : "light"}
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 20, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {isDarkMode ? <FaMoon size={18} /> : <FaSun size={18} />}
+                </motion.div>
+              </AnimatePresence>
+            </motion.button>
+          </div>
+        </div>
+      </div>
+
+      {/* Child Navbar - Navigation + Search (Desktop Only) */}
+      <div className="hidden md:block border-t border-white/20 dark:border-white/10 mt-4 glass">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="flex justify-between items-center py-3 ">
+            {/* Navigation Tabs - Left */}
+            <div className="flex items-center space-x-6 bg-white dark:bg-black rounded-full px-8 py-2 shadow-md">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -93,81 +186,25 @@ const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* Theme Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleTheme}
-              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-yellow-400 focus:outline-none"
-              aria-label="Toggle theme"
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={isDarkMode ? "dark" : "light"}
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 20, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {isDarkMode ? <FaMoon size={18} /> : <FaSun size={18} />}
-                </motion.div>
-              </AnimatePresence>
-            </motion.button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
-            >
-              {isDarkMode ? <FaMoon size={18} /> : <FaSun size={18} />}
-            </button>
-
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-slate-700 dark:text-white"
-            >
-              {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-            </button>
+            {/* Search Bar - Right */}
+            <div className="relative w-64">
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && searchQuery.trim()) {
+                    window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
+                  }
+                }}
+                className="w-full pl-9 pr-4 py-2 rounded-lg bg-white/50 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none transition-all"
+              />
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "100vh" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden absolute top-full left-0 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 overflow-hidden"
-          >
-            <div className="flex flex-col p-6 space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`flex items-center space-x-4 p-4 rounded-xl transition-all ${
-                    isActive(link.path)
-                      ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
-                      : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
-                  }`}
-                >
-                  <span className="font-medium text-lg">{link.name}</span>
-                  {isActive(link.path) && (
-                    <motion.div
-                      layoutId="mobile-indicator"
-                      className="w-1.5 h-1.5 rounded-full bg-primary-500"
-                    />
-                  )}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
   );
 };
