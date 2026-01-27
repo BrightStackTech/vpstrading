@@ -54,7 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                 <img
                   src="https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png"
                   alt="VPS General Trading LLC Logo"
-                  className="relative w-full h-auto rounded-xl"
+                  className="relative w-full h-full rounded-xl"
                 />
             </motion.div>
             <div className="flex flex-col">
