@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch } from 'react-icons/fa';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import ProductDetails from '../components/ProductDetails';
+import Dialog from '../components/Dialog';
 import { products, categories as productCategories } from '../data/products';
+import type { Product } from '../data/products';
+import SEO from '../components/SEO';
 
 const Products: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [shuffledProducts, setShuffledProducts] = useState(products);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const location = useLocation();
   
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const searchTerm = searchParams.get('search') || '';
@@ -41,6 +48,21 @@ const Products: React.FC = () => {
     setShuffledProducts(shuffled);
   }, []);
 
+  // Check hash on mount and when it changes
+  React.useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      const product = products.find(p => p.name === decodeURIComponent(hash));
+      if (product) {
+        setSelectedProduct(product);
+        setIsDialogOpen(true);
+      }
+    } else {
+      setIsDialogOpen(false);
+      setTimeout(() => setSelectedProduct(null), 200);
+    }
+  }, [location.hash]);
+
   const filteredProducts = (selectedCategory === 'All Categories' ? shuffledProducts : products).filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -59,8 +81,27 @@ const Products: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
 
+  const handleViewDetails = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDialogOpen(true);
+    window.location.hash = encodeURIComponent(product.name);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setTimeout(() => setSelectedProduct(null), 200);
+    history.pushState(null, '', ' ');
+  };
+
   return (
     <div className="min-h-screen pt-28 pb-20 bg-blue-50 dark:bg-slate-900">
+      <SEO 
+        title="Our Products - VPS General Trading | FMCG Catalogue UAE"
+        description="Browse VPS General Trading's extensive range of 5000+ FMCG products from top global brands like Nestle, PepsiCo, Unilever. Find quality food, beverages, and consumer goods with wholesale pricing across UAE."
+        keywords="FMCG products UAE, wholesale products Sharjah, consumer goods distributor UAE, food products wholesale, beverage distribution Dubai"
+        ogUrl="https://vpstrading.vercel.app/products"
+        canonicalUrl="https://vpstrading.vercel.app/products"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -79,7 +120,7 @@ const Products: React.FC = () => {
         </motion.div>
 
         {/* Search and Filters */}
-        <div className="sticky top-24 z-30 mb-12">
+        <div className="sticky top-20 lg:top-38 z-30 mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,7 +128,7 @@ const Products: React.FC = () => {
           >
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
               {/* Search Bar */}
-              <div className="relative w-full md:w-96">
+              <div className="relative w-full md:w-96 ">
                 <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
@@ -104,7 +145,7 @@ const Products: React.FC = () => {
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`whitespace-nowrap px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+                    className={`whitespace-nowrap px-4 py-2 rounded-lg font-medium text-sm transition-all hover:cursor-pointer ${
                       selectedCategory === category
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg'
                         : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -128,6 +169,7 @@ const Products: React.FC = () => {
               showPrice={true}
               showRating={true}
               showCart={true}
+              onViewDetails={() => handleViewDetails(product)}
             />
           ))}
         </div>
@@ -149,7 +191,7 @@ const Products: React.FC = () => {
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className="px-3 md:px-4 py-2 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-md text-sm md:text-base"
+                className="px-3 md:px-4 py-2 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-md text-sm md:text-base hover:cursor-pointer"
               >
                 Prev
               </button>
@@ -171,7 +213,7 @@ const Products: React.FC = () => {
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`w-9 h-9 md:w-10 md:h-10 rounded-lg font-medium transition-all shadow-md text-sm md:text-base ${
+                      className={`w-9 h-9 md:w-10 md:h-10 rounded-lg font-medium transition-all shadow-md text-sm md:text-base hover:cursor-pointer ${
                         currentPage === pageNum
                           ? 'bg-primary-600 text-white'
                           : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700'
@@ -186,7 +228,7 @@ const Products: React.FC = () => {
               <button
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
-                className="px-3 md:px-4 py-2 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-md text-sm md:text-base"
+                className="px-3 md:px-4 py-2 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-md text-sm md:text-base hover:cursor-pointer"
               >
                 Next
               </button>
@@ -215,6 +257,20 @@ const Products: React.FC = () => {
             </p>
           </motion.div>
         )}
+
+      {/* Product Details Dialog */}
+      <Dialog
+        isOpen={isDialogOpen}
+        onClose={handleCloseDialog}
+        maxWidth="4xl"
+      >
+        {selectedProduct && (
+          <ProductDetails
+            product={selectedProduct}
+            onClose={handleCloseDialog}
+          />
+        )}
+      </Dialog>
       </div>
     </div>
   );

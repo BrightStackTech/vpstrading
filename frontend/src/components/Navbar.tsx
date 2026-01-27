@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaSun, FaMoon, FaBars, FaPhone, FaEnvelope, FaSearch } from "react-icons/fa";
+import { FaSun, FaMoon, FaBars, FaEnvelope, FaSearch, FaPhoneAlt } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { contactDetails } from "../data/contactdetails";
 
@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-gray-200 dark:bg-gray-900 pt-3 md:pt-2" : "bg-gray-200 dark:bg-gray-900 pt-6 md:pt-4"
+        scrolled ? "bg-gray-100 dark:bg-gray-900 pt-3 md:pt-2 pb-3 md:pb-0" : "bg-gray-100 dark:bg-gray-900 pt-6 md:pt-4 pb-6 md:pb-0"
       }`}
     >
       {/* Main Navbar */}
@@ -53,7 +53,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
               </span> */}
                 <img
                   src="https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png"
-                  alt="VPS General Trading Logo"
+                  alt="VPS General Trading LLC Logo"
                   className="relative w-full h-auto rounded-xl"
                 />
             </motion.div>
@@ -61,23 +61,23 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
               <span className="text-xl md:text-2xl font-display font-bold text-slate-800 dark:text-white leading-none">
                 VPS{" "}
                 <span className="text-primary-600 dark:text-primary-400">
-                  Trading
+                  General Trading LLC
                 </span>
               </span>
-              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium tracking-wider">
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium tracking-wider mt-1">
                 EXCELLENCE DELIVERED
               </span>
             </div>
           </Link>
 
           {/* Mobile Controls - Theme Toggle + Hamburger */}
-          <div className="md:hidden flex items-center space-x-3">
+          <div className="lg:hidden block md:block flex md:flex items-center space-x-3">
             {/* Theme Toggle - Mobile */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleTheme}
-              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-yellow-400 focus:outline-none"
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-yellow-400 focus:outline-none hover:cursor-pointer"
               aria-label="Toggle theme"
             >
               <AnimatePresence mode="wait">
@@ -98,7 +98,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onMenuClick}
-              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-primary-400 focus:outline-none"
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-primary-400 focus:outline-none hover:cursor-pointer"
               aria-label="Open menu"
             >
               <FaBars size={18} />
@@ -106,13 +106,13 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
           </div>
 
           {/* Desktop Right Side - Contact Info + Theme Toggle */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:hidden lg:block lg:flex items-center space-x-4">
             {/* Phone */}
             <a 
               href={`tel:${contactDetails.phone}`}
               className="flex items-center space-x-2 text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
-              <FaPhone size={14} />
+              <FaPhoneAlt size={14} />
               <span className="text-sm font-medium">{contactDetails.phoneDisplay}</span>
             </a>
 
@@ -130,7 +130,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleTheme}
-              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-yellow-400 focus:outline-none"
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-600 dark:text-yellow-400 focus:outline-none hover:cursor-pointer"
               aria-label="Toggle theme"
             >
               <AnimatePresence mode="wait">
@@ -150,7 +150,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
       </div>
 
       {/* Child Navbar - Navigation + Search (Desktop Only) */}
-      <div className="hidden md:block border-t border-white/20 dark:border-white/10 mt-4 glass">
+      <div className="hidden md:hidden lg:block border-t border-white/20 dark:border-white/10 mt-4 glass">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex justify-between items-center py-3 ">
             {/* Navigation Tabs - Left */}
@@ -187,7 +187,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
             </div>
 
             {/* Search Bar - Right */}
-            <div className="relative w-64">
+            <div className="relative w-64 shadow-md rounded-xl">
               <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm" />
               <input
                 type="text"

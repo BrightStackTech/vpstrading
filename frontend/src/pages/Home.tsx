@@ -1,13 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { FaShippingFast, FaHeadset, FaCertificate, FaHandshake, FaArrowRight, FaGlobe, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Globe from '../components/Globe';
 import ProductCard from '../components/ProductCard';
+import Dialog from '../components/Dialog';
+import ProductDetails from '../components/ProductDetails';
 import { featuredProducts } from '../data/products';
+import type { Product } from '../data/products';
+import SEO from '../components/SEO';
 
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const location = useLocation();
+
+  // Check hash on mount and when it changes
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      const product = featuredProducts.find(p => p.name === decodeURIComponent(hash));
+      if (product) {
+        setSelectedProduct(product);
+        setIsDialogOpen(true);
+      }
+    } else {
+      setIsDialogOpen(false);
+      setTimeout(() => setSelectedProduct(null), 200);
+    }
+  }, [location.hash]);
 
   const heroImages = [
     {
@@ -35,7 +57,17 @@ const Home: React.FC = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [heroImages.length]);
+  const handleViewDetails = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDialogOpen(true);
+    window.location.hash = encodeURIComponent(product.name);
+  };
 
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setTimeout(() => setSelectedProduct(null), 200);
+    history.pushState(null, '', ' ');
+  };
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroImages.length);
   };
@@ -104,6 +136,13 @@ const Home: React.FC = () => {
 
   return (
     <div className="overflow-hidden">
+      <SEO 
+        title="VPS General Trading LLC LLC - FMCG Distributor in UAE"
+        description="Leading distributor of Fast-Moving Consumer Goods (FMCG) in UAE. Quality food, beverages, and consumer products from global brands with reliable distribution services across UAE and GCC."
+        keywords="FMCG distributor UAE, food distribution Sharjah, beverage distribution UAE, wholesale FMCG, VPS Trading, VPS General Trading LLC, consumer goods UAE, FMCG Sharjah"
+        ogUrl="https://vpstrading.vercel.app/"
+        canonicalUrl="https://vpstrading.vercel.app/"
+      />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         {/* Image Carousel Background */}
@@ -140,7 +179,7 @@ const Home: React.FC = () => {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 dark:hover:bg-black/30 transition-all shadow-xl group"
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 dark:hover:bg-black/30 transition-all shadow-xl group hover:cursor-pointer"
           aria-label="Previous slide"
         >
           <FaChevronLeft className="text-lg md:text-xl group-hover:-translate-x-1 transition-transform" />
@@ -148,7 +187,7 @@ const Home: React.FC = () => {
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 dark:hover:bg-black/30 transition-all shadow-xl group"
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 dark:hover:bg-black/30 transition-all shadow-xl group hover:cursor-pointer"
           aria-label="Next slide"
         >
           <FaChevronRight className="text-lg md:text-xl group-hover:translate-x-1 transition-transform" />
@@ -160,7 +199,7 @@ const Home: React.FC = () => {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`transition-all ${
+              className={`transition-all hover:cursor-pointer ${
                 currentSlide === index
                   ? 'w-12 h-3 bg-white rounded-full'
                   : 'w-3 h-3 bg-white/50 rounded-full hover:bg-white/75'
@@ -199,9 +238,9 @@ const Home: React.FC = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all flex items-center justify-center space-x-2"
+                    className="w-full sm:w-auto px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all flex items-center justify-center space-x-2 hover:cursor-pointer"
                   >
-                    <span>Discover Catalog</span>
+                    <span>Discover Products</span>
                     <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                   </motion.button>
                 </Link>
@@ -210,9 +249,9 @@ const Home: React.FC = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-xl font-semibold hover:bg-white/20 transition-all shadow-lg"
+                    className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-xl font-semibold hover:bg-white/20 transition-all shadow-lg hover:cursor-pointer"
                   >
-                    Partner With Us
+                    Contact Us
                   </motion.button>
                 </Link>
               </motion.div>
@@ -231,7 +270,7 @@ const Home: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">About VPS Trading</span>
+            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">About VPS General Trading LLC</span>
             <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">
               Who are we & What we do?
             </h2>
@@ -248,7 +287,7 @@ const Home: React.FC = () => {
                 Leading <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">FMCG Distributor</span> in Global Markets
               </h3>
               <p className="text-slate-600 dark:text-slate-300 text-lg mb-6 leading-relaxed">
-                At VPS General Trading, we pride ourselves on being a premier distributor of Fast-Moving Consumer Goods (FMCG) across global markets. With years of industry expertise and a commitment to excellence, we connect quality products with consumers worldwide.
+                At VPS General Trading LLC, we pride ourselves on being a premier distributor of Fast-Moving Consumer Goods (FMCG) across global markets. With years of industry expertise and a commitment to excellence, we connect quality products with consumers worldwide.
               </p>
               <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
                 Our extensive network and strategic partnerships enable us to offer a diverse range of products while maintaining the highest standards of quality and service. We understand the dynamic nature of the FMCG sector and continuously adapt to meet evolving market demands.
@@ -266,7 +305,7 @@ const Home: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 dark:from-primary-500/10 dark:to-secondary-500/10 rounded-3xl" />
                 <img
                   src="https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png"
-                  alt="VPS General Trading Logo"
+                  alt="VPS General Trading LLC Logo"
                   className="relative w-full h-auto rounded-2xl"
                 />
               </div>
@@ -297,6 +336,7 @@ const Home: React.FC = () => {
                 key={index}
                 product={product}
                 index={index}
+                onViewDetails={() => handleViewDetails(product)}
               />
             ))}
           </div>
@@ -314,6 +354,7 @@ const Home: React.FC = () => {
                   <ProductCard
                     product={product}
                     index={index % featuredProducts.length}
+                    onViewDetails={() => handleViewDetails(product)}
                   />
                 </div>
               ))}
@@ -373,7 +414,7 @@ const Home: React.FC = () => {
                 Connecting <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">Global Markets</span>
               </h3>
               <p className="text-slate-600 dark:text-slate-300 text-lg mb-8 leading-relaxed">
-                At VPS General Trading, we pride ourselves on being a premier distributor of Fast-Moving Consumer Goods (FMCG) across global markets. With years of industry expertise and a commitment to excellence, we connect quality products with consumers worldwide.
+                At VPS General Trading LLC, we pride ourselves on being a premier distributor of Fast-Moving Consumer Goods (FMCG) across global markets. With years of industry expertise and a commitment to excellence, we connect quality products with consumers worldwide.
               </p>
               <p className="text-slate-600 dark:text-slate-300 text-lg mb-12 leading-relaxed">
                 Our extensive network and strategic partnerships enable us to offer a diverse range of products while maintaining the highest standards of quality and service. We understand the dynamic nature of the FMCG sector and continuously adapt to meet evolving market demands.
@@ -511,19 +552,57 @@ const Home: React.FC = () => {
             </h2>
           </motion.div>
 
-          <div className="relative overflow-hidden py-8">
+          {/* Mobile View - Grid */}
+          <div className="grid grid-cols-2 gap-6 md:hidden">
+            {[
+              { name: 'Nestle', logo: 'https://res.cloudinary.com/dvb5mesnd/image/upload/v1754946636/nestle-logo_asw5uf.png' },
+              { name: 'PepsiCo', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/PepsiCo_logo.svg/1200px-PepsiCo_logo.svg.png?20210115205614' },
+              { name: 'Unilever', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Unilever.svg/800px-Unilever.svg.png' },
+              { name: "Kellogg's", logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Kellogg%27s-Logo.svg/1200px-Kellogg%27s-Logo.svg.png' },
+              { name: 'Cadbury', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Cadbury_%282020%29.svg/640px-Cadbury_%282020%29.svg.png' },
+              { name: 'Coca-Cola', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg' }
+            ].map((brand, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center p-4 h-32 opacity-60 grayscale bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700"
+              >
+                <img 
+                  src={brand.logo} 
+                  alt={`${brand.name} logo`}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop View - Scrolling Carousel */}
+          <div className="relative overflow-hidden py-8 hidden md:block">
             <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white dark:from-slate-900 to-transparent z-10" />
             <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white dark:from-slate-900 to-transparent z-10" />
-            <div className="flex animate-[scroll_30s_linear_infinite] gap-12 items-center">
+            <div className="flex animate-[scroll_20s_linear_infinite] gap-8 items-center">
               {[
-                'Nestle', 'PepsiCo', 'Coca-Cola', 'Unilever', 'Cadbury', "Kellogg's",
-                'Nestle', 'PepsiCo', 'Coca-Cola', 'Unilever', 'Cadbury', "Kellogg's"
+                { name: 'Nestle', logo: 'https://res.cloudinary.com/dvb5mesnd/image/upload/v1754946636/nestle-logo_asw5uf.png' },
+                { name: 'PepsiCo', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/PepsiCo_logo.svg/1200px-PepsiCo_logo.svg.png?20210115205614' },
+                { name: 'Unilever', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Unilever.svg/800px-Unilever.svg.png' },
+                { name: "Kellogg's", logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Kellogg%27s-Logo.svg/1200px-Kellogg%27s-Logo.svg.png' },
+                { name: 'Cadbury', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Cadbury_%282020%29.svg/640px-Cadbury_%282020%29.svg.png' },
+                { name: 'Coca-Cola', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg' },
+                { name: 'Nestle', logo: 'https://res.cloudinary.com/dvb5mesnd/image/upload/v1754946636/nestle-logo_asw5uf.png' },
+                { name: 'PepsiCo', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/PepsiCo_logo.svg/1200px-PepsiCo_logo.svg.png?20210115205614' },
+                { name: 'Unilever', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Unilever.svg/800px-Unilever.svg.png' },
+                { name: "Kellogg's", logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Kellogg%27s-Logo.svg/1200px-Kellogg%27s-Logo.svg.png' },
+                { name: 'Cadbury', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Cadbury_%282020%29.svg/640px-Cadbury_%282020%29.svg.png' },
+                { name: 'Coca-Cola', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg' }
               ].map((brand, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 w-48 h-24 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700"
+                  className="flex-shrink-0 w-60 h-32 flex items-center justify-center p-4 opacity-40 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-pointer hover:scale-105 transform bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700"
                 >
-                  <span className="text-2xl font-bold text-slate-700 dark:text-slate-300">{brand}</span>
+                  <img 
+                    src={brand.logo} 
+                    alt={`${brand.name} logo`}
+                    className="max-w-full max-h-full object-contain"
+                  />
                 </div>
               ))}
             </div>
@@ -533,7 +612,7 @@ const Home: React.FC = () => {
 
       {/* CTA Section */}
       <section className="py-24 bg-blue-100 dark:bg-slate-900">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-primary-600 to-secondary-600 px-6 py-16 md:px-16 md:py-20 text-center shadow-2xl">
             {/* Background Decorations */}
             <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
@@ -544,21 +623,35 @@ const Home: React.FC = () => {
                 Ready to stock your shelves?
               </h2>
               <p className="text-lg text-primary-50 mb-10 max-w-2xl mx-auto">
-                Join 800+ retailers and businesses who trust VPS General Trading for consistent supply of quality consumer goods.
+                Join 800+ retailers and businesses who trust VPS General Trading LLC for consistent supply of quality consumer goods.
               </p>
               <Link to="/contact">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-10 py-5 bg-white text-primary-600 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all"
+                  className="px-10 py-5 bg-white text-primary-600 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:cursor-pointer"
                 >
-                  Start Your Journey
+                  Contact Us Today
                 </motion.button>
               </Link>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Product Details Dialog */}
+      <Dialog
+        isOpen={isDialogOpen}
+        onClose={handleCloseDialog}
+        maxWidth="4xl"
+      >
+        {selectedProduct && (
+          <ProductDetails
+            product={selectedProduct}
+            onClose={handleCloseDialog}
+          />
+        )}
+      </Dialog>
     </div>
   );
 };

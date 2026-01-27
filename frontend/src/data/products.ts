@@ -22,7 +22,7 @@ export const products: Product[] = [
   // Confectionery
   {
     "id": 1,
-    "name": "listerine mouth freshn...",
+    "name": "listerine mouth freshner",
     "brand": "listerine",
     "details": "Listerine Original Mouthwash 500ml - Kills 99.9% of germs that cause bad breath, plaque and gingivitis. Provides 24-hour protection with twice daily use. Fresh mint flavor.",
     "category": "Personal-care",
@@ -105,7 +105,7 @@ export const products: Product[] = [
     "name": "ariel",
     "brand": "arieal",
     "details": "Ariel All-in-One Pods - Advanced cleaning technology in convenient pre-measured pods. Removes tough stains even in cold water. Contains stain removers, brighteners and freshness boosters for outstanding results.",
-    "category": "Household",
+    "category": "Toiletries",
     "images": ["https://res.cloudinary.com/domckasfk/image/upload/v1762599442/cbw7nu4pp6lsnckt9axr.jpg"]
   },
   {
@@ -233,7 +233,7 @@ export const products: Product[] = [
     "name": "lipton yellow tea",
     "brand": "Lipton",
     "details": "Lipton Yellow Label Black Tea - World's most popular tea brand with rich, full-bodied flavor. Made from selected tea leaves for consistent quality. Available in various pack sizes for retail and food service.",
-    "category": "Beverages",
+    "category": "Health-care",
     "images": ["https://res.cloudinary.com/domckasfk/image/upload/v1762602577/g1qhb95mfds2uswcz1aj.jpg"]
   },
   {
@@ -342,7 +342,7 @@ export const products: Product[] = [
   },
   {
     "id": 41,
-    "name": "Nescafe 3 in 1 Indone...",
+    "name": "Nescafe 3 in 1 Indonesia",
     "brand": "Nescafe",
     "details": "Nescafe 3-in-1 Instant Coffee from Indonesia - 12 boxes X 30 sachets X 17.50gm per sachet. Pre-mixed coffee with creamer and sugar for perfect taste every time. Convenient single-serve format ideal for offices and quick service.",
     "category": "Beverages",
@@ -390,7 +390,7 @@ export const products: Product[] = [
   },
   {
     "id": 47,
-    "name": "Raffaello Coconut and ...",
+    "name": "Raffaello Coconut and Almond",
     "brand": "Ferrero",
     "details": "Raffaello Bar Format - Convenient bar version of classic Raffaello pralines. Creamy coconut and almond taste in portable format. Perfect for on-the-go indulgence and impulse purchases.",
     "category": "Confectionery",
@@ -473,7 +473,7 @@ export const products: Product[] = [
     "name": "Lipton 100g",
     "brand": "Lipton",
     "details": "Lipton Yellow Label Tea 100g - Premium black tea blend for authentic tea experience. Small format perfect for trying or light tea drinkers. Convenient size for retail impulse purchases and sampling.",
-    "category": "Beverages",
+    "category": "Health-care",
     "images": ["https://res.cloudinary.com/domckasfk/image/upload/v1765264742/kintjuvlbhcffj1lrslz.png"]
   },
   {
@@ -678,7 +678,7 @@ export const products: Product[] = [
   },
   {
     "id": 83,
-    "name": "Kinder Schoko Bons Cri...",
+    "name": "Kinder Schoko Bons Crispy",
     "brand": "Ferrero",
     "details": "Kinder Schoko-Bons Crispy - Bite-sized chocolate treats with hazelnut filling and crispy shell. Fun format perfect for sharing occasions. Popular party and celebration confectionery with strong appeal to all ages.",
     "category": "Confectionery",
@@ -729,7 +729,7 @@ export const products: Product[] = [
     "name": "Lipton Pyramid Tea",
     "brand": "Lipton",
     "details": "Lipton Pyramid Tea Bags - Premium whole leaf tea in pyramid sachets for better infusion. Enhanced flavor release with distinctive packaging. Luxury tea experience at accessible price point targeting quality-conscious consumers.",
-    "category": "Beverages",
+    "category": "Health-care",
     "images": ["https://res.cloudinary.com/domckasfk/image/upload/v1764933818/rldwonrt4hygbnuoqh8v.png"]
   },
   {
@@ -902,7 +902,7 @@ export const products: Product[] = [
   },
   {
     "id": 111,
-    "name": "Starbucks Nespresso Ca...",
+    "name": "Starbucks Nespresso Capsules",
     "brand": "Starbucks",
     "details": "Starbucks Nespresso Compatible Capsules - Premium coffee shop experience at home with Nespresso machines. Authentic Starbucks roasts in convenient capsule format. Brings café quality to home brewing enthusiasts.",
     "category": "Beverages",
@@ -913,7 +913,7 @@ export const products: Product[] = [
     "name": "Lipton Black Tea",
     "brand": "Lipton",
     "details": "Lipton Pure Black Tea - Classic black tea with rich, full-bodied flavor from selected tea gardens. Perfect hot or iced for refreshing beverage any time. Trusted tea brand delivering consistent quality for generations.",
-    "category": "Beverages",
+    "category": "Health-care",
     "images": ["https://res.cloudinary.com/domckasfk/image/upload/v1764933676/aabm12cbrfjfe2e9me7y.jpg"]
   }
 ];

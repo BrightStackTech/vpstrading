@@ -15,7 +15,7 @@ export interface ContactDetails {
   social?: {
     facebook?: string;
     instagram?: string;
-    linkedin?: string;
+    twitter?: string;
   };
 }
 
@@ -32,5 +32,10 @@ export const contactDetails: ContactDetails = {
     number: '971568977404',
     message: 'Hello, I would like to inquire about your products.',
     url: 'https://wa.me/971568977404?text=Hello,%20I%20would%20like%20to%20inquire%20about%20your%20products.'
+  },
+  social: {
+    facebook: 'https://www.facebook.com/vpsgentrading',
+    instagram: 'https://www.instagram.com/vpsgentrading',
+    twitter: 'https://www.twitter.com/vpsgentrading'
   }
 };

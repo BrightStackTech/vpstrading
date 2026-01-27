@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { contactDetails } from '../data/contactdetails';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -17,7 +18,7 @@ const Footer: React.FC = () => {
     { icon: FaFacebookF, href: '#', label: 'Facebook' },
     { icon: FaTwitter, href: '#', label: 'Twitter' },
     { icon: FaInstagram, href: '#', label: 'Instagram' },
-    { icon: FaLinkedinIn, href: '#', label: 'LinkedIn' },
+    // { icon: FaLinkedinIn, href: '#', label: 'LinkedIn' },
   ];
 
   return (
@@ -32,16 +33,20 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Company Info */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3">
+            <Link to={`/`} className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-900/50">
-                <span className="text-white font-display font-bold text-xl">V</span>
+                <img
+                  src="https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png"
+                  alt="VPS General Trading LLC Logo"
+                  className="relative w-full h-auto rounded-xl"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-display font-bold text-white leading-none">
-                  VPS <span className="text-primary-400">Trading</span>
+                  VPS <span className="text-primary-400"> General Trading LLC</span>
                 </span>
               </div>
-            </div>
+            </Link>
             <p className="text-sm leading-relaxed text-slate-400">
               Your trusted partner in quality trading solutions. We provide excellence in every product and service with a commitment to integrity.
             </p>
@@ -100,20 +105,22 @@ const Footer: React.FC = () => {
                 <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 text-primary-400">
                   <FaMapMarkerAlt size={14} />
                 </div>
-                <span className="mt-1">Dubai, United Arab Emirates</span>
+                <span className="mt-1">{contactDetails.address}</span>
               </li>
               <li className="flex items-center space-x-4 text-sm text-slate-400">
                 <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 text-primary-400">
                   <FaPhone size={14} />
                 </div>
-                <span>+971 XX XXX XXXX</span>
+                <a href={`tel:${contactDetails.phone}`} className="hover:text-white transition-colors">
+                  {contactDetails.phoneDisplay}
+                </a>
               </li>
               <li className="flex items-center space-x-4 text-sm text-slate-400">
                 <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 text-primary-400">
                   <FaEnvelope size={14} />
                 </div>
-                <a href="mailto:info@vpstrading.com" className="hover:text-white transition-colors">
-                  info@vpstrading.com
+                <a href={`mailto:${contactDetails.email}`} className="hover:text-white transition-colors">
+                  {contactDetails.email}
                 </a>
               </li>
             </ul>
@@ -123,7 +130,7 @@ const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
           <p>
-            © {currentYear} VPS General Trading LLC. All rights reserved.
+            © {currentYear} VPS General Trading LLC LLC. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="hover:text-slate-300 transition-colors">Privacy Policy</a>

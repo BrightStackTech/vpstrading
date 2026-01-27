@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <button
               onClick={onViewDetails}
-              className="px-6 py-2 bg-white text-slate-900 rounded-full font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+              className="px-6 py-2 bg-white text-slate-900 rounded-full font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 cursor-pointer"
             >
               View Details
             </button>
@@ -85,7 +85,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         
         {(product.brand) && (
           <span className="text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2 mt-1">
-            {product.brand} . {product.category}
+            <a href={`/products?search=${product.brand}`}>{product.brand}</a> . <a href={`/products?category=${product.category}`}>{product.category}</a>
           </span>
         )}
         

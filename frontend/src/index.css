@@ -10,17 +10,17 @@
 
   /* Premium Color Palette (Blue & Green) */
   /* Primary: Blue */
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary-950: #172554;
+  --color-primary-50: #eff0fc;
+  --color-primary-100: #dfe1f9;
+  --color-primary-200: #c0c3f3;
+  --color-primary-300: #a0a5ed;
+  --color-primary-400: #6769c0;
+  --color-primary-500: #3d3fa8;
+  --color-primary-600: #2E3192;
+  --color-primary-700: #252778;
+  --color-primary-800: #1c1d5e;
+  --color-primary-900: #13143f;
+  --color-primary-950: #0a0a20;
 
   /* Secondary: Green */
   --color-secondary-50: #f0fdf4;
@@ -98,15 +98,15 @@ h6 {
   font-family: var(--font-display);
 }
 
-/* Scrollbar */
+/* Scrollbar - Hidden */
 ::-webkit-scrollbar {
-  width: 10px;
+  display: none;
+  width: 0;
 }
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 dark:bg-slate-700 rounded-full hover:bg-slate-400 dark:hover:bg-slate-600 transition-colors;
+
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 /* Glassmorphism Utilities */

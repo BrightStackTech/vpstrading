@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaRocket, FaEye, FaHeart, FaUsers, FaAward, FaGlobe } from 'react-icons/fa';
+import SEO from '../components/SEO';
 
 const About: React.FC = () => {
   const values = [
@@ -27,7 +28,7 @@ const About: React.FC = () => {
   ];
 
   const milestones = [
-    { year: '2014', title: 'Foundation', description: 'VPS General Trading launched in Dubai with 50 product SKUs.' },
+    { year: '2014', title: 'Foundation', description: 'VPS General Trading LLC launched in Dubai with 50 product SKUs.' },
     { year: '2016', title: 'Warehouse Expansion', description: 'Opened 10,000 sq ft warehouse facility in Dubai Industrial Area.' },
     { year: '2019', title: '500+ Retail Partners', description: 'Supplying to supermarkets, groceries, and retail chains across UAE.' },
     { year: '2022', title: '5000+ Products', description: 'Expanded catalog to include all major FMCG categories and brands.' },
@@ -54,6 +55,13 @@ const About: React.FC = () => {
 
   return (
     <div className="min-h-screen overflow-hidden pt-20">
+      <SEO 
+        title="About Us - VPS General Trading | Leading FMCG Distributor UAE"
+        description="Learn about VPS General Trading LLC, a premier FMCG distributor in UAE since 2014. Discover our story, values, and commitment to excellence in distribution across UAE and GCC."
+        keywords="About VPS Trading, FMCG company Sharjah, global distribution UAE, UAE distributor, VPS General Trading LLC"
+        ogUrl="https://vpstrading.vercel.app/about"
+        canonicalUrl="https://vpstrading.vercel.app/about"
+      />
       {/* Hero Section */}
       <section className="relative py-24 bg-blue-100 dark:bg-blue-950 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
@@ -75,7 +83,7 @@ const About: React.FC = () => {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed opacity-90">
-              VPS General Trading supplies quality consumer goods to retailers, supermarkets, and businesses across the UAE and GCC region.
+              VPS General Trading LLC supplies quality consumer goods to retailers, supermarkets, and businesses across the UAE and GCC region.
             </p>
           </motion.div>
         </div>

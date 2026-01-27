@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaPaperPlane, FaWhatsapp } from 'react-icons/fa';
-
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaPaperPlane, FaWhatsapp } from 'react-icons/fa';import { contactDetails } from '../data/contactdetails';
+import SEO from '../components/SEO';
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -25,8 +25,26 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Construct email body with form details
+    const emailSubject = formData.subject ? `${formData.subject} - Contact Form` : 'Contact Form Submission';
+    const emailBody = `
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone || 'Not provided'}
+Subject: ${formData.subject || 'General Inquiry'}
+
+Message:
+${formData.message}
+    `.trim();
+
+    // Create mailto link
+    const mailtoLink = `mailto:${contactDetails.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+
+    // Small delay for UX
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsSubmitting(false);
     setSubmitSuccess(true);
@@ -39,31 +57,42 @@ const Contact: React.FC = () => {
     {
       icon: FaMapMarkerAlt,
       title: 'Headquarters',
-      details: ['VPS General Trading LLC', 'Business Bay, Dubai, UAE'],
-      action: 'Get Directions'
+      details: ['VPS General Trading LLC LLC', contactDetails.address],
+      action: 'Get Directions',
+      link: contactDetails.maps.link
     },
     {
       icon: FaPhone,
       title: 'Call Us',
-      details: ['+971 4 XXX XXXX', '+971 50 XXX XXXX'],
-      action: 'Call Now'
+      details: [contactDetails.phoneDisplay],
+      action: 'Call Now',
+      link: `tel:${contactDetails.phone}`
     },
     {
       icon: FaEnvelope,
       title: 'Email',
-      details: ['info@vpstrading.com', 'sales@vpstrading.com'],
-      action: 'Send Email'
+      details: [contactDetails.email],
+      action: 'Send Email',
+      link: `mailto:${contactDetails.email}`
     },
     {
       icon: FaClock,
       title: 'Working Hours',
       details: ['Mon - Fri: 9:00 AM - 6:00 PM', 'Sat: 9:00 AM - 1:00 PM'],
-      action: 'View Calendar'
+      action: 'View Calendar',
+      link: `https://calendar.google.com/calendar/`
     },
   ];
 
   return (
     <div className="min-h-screen pt-20">
+      <SEO 
+        title="Contact Us - VPS General Trading | Get in Touch"
+        description="Contact VPS General Trading LLC for FMCG inquiries, wholesale partnerships, or support. Reach us via phone, email, or visit our Sharjah office in UAE."
+        keywords="Contact VPS Trading, FMCG inquiries Sharjah, business contact UAE, wholesale FMCG distributor"
+        ogUrl="https://vpstrading.vercel.app/contact"
+        canonicalUrl="https://vpstrading.vercel.app/contact"
+      />
       {/* Hero Section */}
       <section className="relative py-20 bg-blue-100 dark:bg-blue-950 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-600/30 to-secondary-600/30 dark:from-primary-900/40 dark:to-secondary-900/40" />
@@ -87,7 +116,7 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Contact Info Cards */}
-      <section className="py-20 relative -mt-16 z-20">
+      <section className="py-16 relative  z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
@@ -113,7 +142,13 @@ const Contact: React.FC = () => {
                     </p>
                   ))}
                 </div>
-                <button className="text-primary-600 dark:text-primary-400 text-sm font-semibold hover:underline">
+                <button className="w-full py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105 transform hover:cursor-pointer" onClick={() => {
+                  if (info.link) {
+                    window.open(info.link, '_blank');
+                  } else {
+                    window.location.href = info.action;
+                  }
+                }}>
                   {info.action}
                 </button>
               </motion.div>
@@ -123,7 +158,7 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Main Content Split */}
-      <section className="pb-24 bg-white dark:bg-slate-950">
+      <section className="py-20 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Contact Form */}
@@ -145,8 +180,10 @@ const Contact: React.FC = () => {
 
                 {submitSuccess && (
                   <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
                     className="mb-8 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-center gap-3 text-green-700 dark:text-green-400"
                   >
                      <div className="w-2 h-2 rounded-full bg-green-500" />
@@ -266,18 +303,12 @@ const Contact: React.FC = () => {
             </motion.div>
 
             {/* Map & Social */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="flex flex-col gap-8"
-            >
+            <div className="flex flex-col gap-8">
               {/* Map Container */}
               <div className="flex-grow bg-white dark:bg-surface-900 p-4 rounded-3xl shadow-lg border border-slate-100 dark:border-slate-800 h-[500px]">
                 <div className="w-full h-full rounded-2xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462560.6828074684!2d54.89782425!3d25.0762345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2sus!4v1234567890"
+                    src={contactDetails.maps.embedUrl}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -293,13 +324,18 @@ const Contact: React.FC = () => {
                 <div className="relative z-10">
                    <h3 className="text-2xl font-bold mb-1">Chat on WhatsApp</h3>
                    <p className="opacity-90 mb-4">Quick responses for urgent inquiries</p>
-                   <button className="px-6 py-2 bg-white text-[#25D366] rounded-full font-bold text-sm hover:shadow-lg transition-shadow">
+                   <a 
+                     href={contactDetails.whatsapp.url}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="inline-block px-6 py-2 bg-white text-[#25D366] rounded-full font-bold text-sm hover:shadow-lg transition-shadow"
+                   >
                      Start Chat
-                   </button>
+                   </a>
                 </div>
                 <FaWhatsapp className="text-[120px] absolute -right-6 -bottom-8 opacity-20 rotate-12" />
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

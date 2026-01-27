@@ -40,9 +40,10 @@ const Globe = ({ className }: { className?: string }) => {
       glowColor: [1, 1, 1],
       markers: [
         // Business locations
-        { location: [25.2684, 55.2962], size: 0.1 }, // Dubai
-        { location: [24.4539, 54.3773], size: 0.1 }, // Abu Dhabi
-        { location: [29.3759, 47.9774], size: 0.1 }, // Kuwait
+        // { location: [25.2684, 55.2962], size: 0.1 }, // Dubai
+        // { location: [24.4539, 54.3773], size: 0.1 }, // Abu Dhabi
+        // { location: [29.3759, 47.9774], size: 0.1 }, // Kuwait
+        { location: [25.449696471351807, 55.683335319442065], size: 0.1 }
       ],
       onRender: (state: any) => {
         // Only update phi if not paused
@@ -83,7 +84,7 @@ const Globe = ({ className }: { className?: string }) => {
   }, [dimensions]);
 
   return (
-    <div ref={containerRef} className="w-full flex items-center justify-center">
+    <div ref={containerRef} className="w-full flex items-center justify-center hover:cursor-pointer">
       <canvas
         ref={canvasRef}
         style={{ 

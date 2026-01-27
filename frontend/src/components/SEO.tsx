@@ -1,0 +1,51 @@
+import { Helmet } from "react-helmet-async";
+
+interface SEOProps {
+  title: string;
+  description: string;
+  keywords?: string;
+  ogImage?: string;
+  ogUrl?: string;
+  canonicalUrl?: string;
+}
+
+const SEO = ({
+  title,
+  description,
+  keywords = "FMCG distributor UAE, food distribution Sharjah, beverage distribution UAE, wholesale FMCG, VPS Trading, VPS General Trading LLC, consumer goods UAE, FMCG Sharjah",
+  ogImage = "https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png",
+  ogUrl = "https://www.vpstrading.ae",
+  canonicalUrl = "https://www.vpstrading.ae"
+}: SEOProps) => {
+  return (
+    <Helmet>
+      {/* Primary Meta Tags */}
+      <title>{title}</title>
+      <meta name="title" content={title} />
+      <meta name="description" content={description} />
+      <meta name="keywords" content={keywords} />
+      <meta name="author" content="VPS Trading" />
+      <meta name="robots" content="index, follow" />
+      <meta name="language" content="English" />
+
+      {/* Open Graph / Facebook Meta Tags */}
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:url" content={ogUrl} />
+      <meta property="og:site_name" content="VPS Trading" />
+
+      {/* Twitter Meta Tags */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={ogImage} />
+
+      {/* Canonical URL */}
+      <link rel="canonical" href={canonicalUrl} />
+    </Helmet>
+  );
+};
+
+export default SEO;
