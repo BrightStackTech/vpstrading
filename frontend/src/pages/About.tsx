@@ -58,7 +58,7 @@ const About: React.FC = () => {
       <SEO 
         title="About Us - VPS General Trading | Leading FMCG Distributor UAE"
         description="Learn about VPS General Trading LLC, a premier FMCG distributor in UAE since 2014. Discover our story, values, and commitment to excellence in distribution across UAE and GCC."
-        keywords="About VPS Trading, FMCG company Sharjah, global distribution UAE, UAE distributor, VPS General Trading LLC"
+        keywords="About VPS General Trading, FMCG company Sharjah, global distribution UAE, UAE distributor, VPS General Trading LLC"
         ogUrl="https://vpstrading.vercel.app/about"
         canonicalUrl="https://vpstrading.vercel.app/about"
       />

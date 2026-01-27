@@ -12,7 +12,7 @@ interface SEOProps {
 const SEO = ({
   title,
   description,
-  keywords = "FMCG distributor UAE, food distribution Sharjah, beverage distribution UAE, wholesale FMCG, VPS Trading, VPS General Trading LLC, consumer goods UAE, FMCG Sharjah",
+  keywords = "FMCG distributor UAE, food distribution Sharjah, beverage distribution UAE, wholesale FMCG, VPS General Trading, VPS General Trading LLC, consumer goods UAE, FMCG Sharjah",
   ogImage = "https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png",
   ogUrl = "https://www.vpstrading.ae",
   canonicalUrl = "https://www.vpstrading.ae"
@@ -24,7 +24,7 @@ const SEO = ({
       <meta name="title" content={title} />
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <meta name="author" content="VPS Trading" />
+      <meta name="author" content="VPS General Trading" />
       <meta name="robots" content="index, follow" />
       <meta name="language" content="English" />
 
@@ -34,7 +34,7 @@ const SEO = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:url" content={ogUrl} />
-      <meta property="og:site_name" content="VPS Trading" />
+      <meta property="og:site_name" content="VPS General Trading" />
 
       {/* Twitter Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />

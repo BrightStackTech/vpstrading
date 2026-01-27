@@ -89,7 +89,7 @@ ${formData.message}
       <SEO 
         title="Contact Us - VPS General Trading | Get in Touch"
         description="Contact VPS General Trading LLC for FMCG inquiries, wholesale partnerships, or support. Reach us via phone, email, or visit our Sharjah office in UAE."
-        keywords="Contact VPS Trading, FMCG inquiries Sharjah, business contact UAE, wholesale FMCG distributor"
+        keywords="Contact VPS General Trading, FMCG inquiries Sharjah, business contact UAE, wholesale FMCG distributor"
         ogUrl="https://vpstrading.vercel.app/contact"
         canonicalUrl="https://vpstrading.vercel.app/contact"
       />
