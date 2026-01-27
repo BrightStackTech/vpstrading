@@ -141,19 +141,29 @@ const Products: React.FC = () => {
 
               {/* Category Filter */}
               <div className="flex overflow-x-auto pb-2 md:pb-0 gap-2 w-full md:w-auto no-scrollbar">
+                <button
+                  onClick={() => setSelectedCategory('All Categories')}
+                  className={`whitespace-nowrap px-4 py-2 rounded-lg font-medium text-sm transition-all hover:cursor-pointer ${
+                    selectedCategory === 'All Categories'
+                      ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg'
+                      : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  All Categories
+                </button>
                 {productCategories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`whitespace-nowrap px-4 py-2 rounded-lg font-medium text-sm transition-all hover:cursor-pointer ${
-                      selectedCategory === category
-                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg'
-                        : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
+                    <button
+                      key={typeof category === 'string' ? category : category.name}
+                      onClick={() => setSelectedCategory(typeof category === 'string' ? category : category.name)}
+                      className={`whitespace-nowrap px-4 py-2 rounded-lg font-medium text-sm transition-all hover:cursor-pointer ${
+                        selectedCategory === (typeof category === 'string' ? category : category.name)
+                          ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg'
+                          : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {typeof category === 'string' ? category : category.name}
+                    </button>
+                  ))}
               </div>
             </div>
           </motion.div>

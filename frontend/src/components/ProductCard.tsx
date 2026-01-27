@@ -34,10 +34,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: index * 0.05 }}
-      className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 hover:border-primary-300 dark:hover:border-primary-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:cursor-pointer"
+      className="group bg-white h-full dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 hover:border-primary-300 dark:hover:border-primary-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:cursor-pointer"
     >
       {/* Product Image */}
-      <div className="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-800">
+      <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-800">
         <img
           src={product.images[0]}
           alt={product.name}

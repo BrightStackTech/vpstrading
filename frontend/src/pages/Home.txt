@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { FaShippingFast, FaHeadset, FaCertificate, FaHandshake, FaArrowRight, FaGlobe, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
+import Globe from '../components/Globe';
 import ProductCard from '../components/ProductCard';
-import CategoryCard from '../components/CategoryCard';
 import Dialog from '../components/Dialog';
 import ProductDetails from '../components/ProductDetails';
-import { featuredProducts, categories } from '../data/products';
+import { featuredProducts } from '../data/products';
 import type { Product } from '../data/products';
 import SEO from '../components/SEO';
 
@@ -260,35 +260,61 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* About Us Section */}
+
+      {/* Who We Are Section */}
       <section className="py-24 bg-white dark:bg-slate-900">
-        <div className="max-w-6xl mx-auto px-6 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center"
+            className="text-center mb-16"
           >
-            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">About VPS General Trading</span>
-            <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-8">
-              Your Trusted FMCG Distribution Partner
+            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">About VPS General Trading LLC</span>
+            <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">
+              Who are we & What we do?
             </h2>
-            <div className="space-y-6 text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-              <p>
-                VPS General Trading LLC is a leading distributor of Fast-Moving Consumer Goods (FMCG) based in Sharjah, UAE. With over 12 years of industry experience, we have established ourselves as a reliable partner for retailers, supermarkets, and businesses across the UAE and GCC region.
-              </p>
-              <p>
-                Our commitment to excellence drives us to maintain strong partnerships with globally recognized brands, ensuring that our clients receive only the highest quality products. From confectionery and beverages to personal care and healthcare items, we offer a comprehensive range of 5000+ product SKUs to meet diverse market demands.
-              </p>
-              <p>
-                At VPS Trading, we pride ourselves on our efficient supply chain, dedicated customer support, and unwavering commitment to quality assurance. Our mission is to keep your shelves stocked with products that your customers trust and love.
-              </p>
-            </div>
           </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h3 className="text-3xl md:text-4xl font-display font-bold text-slate-900 dark:text-white mb-6">
+                Leading <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">FMCG Distributor</span> in Global Markets
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 text-lg mb-6 leading-relaxed">
+                At VPS General Trading LLC, we pride ourselves on being a premier distributor of Fast-Moving Consumer Goods (FMCG) across global markets. With years of industry expertise and a commitment to excellence, we connect quality products with consumers worldwide.
+              </p>
+              <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+                Our extensive network and strategic partnerships enable us to offer a diverse range of products while maintaining the highest standards of quality and service. We understand the dynamic nature of the FMCG sector and continuously adapt to meet evolving market demands.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex justify-center"
+            >
+              <div className="relative w-full max-w-md p-8 bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-slate-800 dark:to-slate-800 rounded-3xl border-2 border-primary-200 dark:border-primary-700 shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 dark:from-primary-500/10 dark:to-secondary-500/10 rounded-3xl" />
+                <img
+                  src="https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png"
+                  alt="VPS General Trading LLC Logo"
+                  className="relative w-full h-auto rounded-2xl"
+                />
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Our Best Sellers Section */}
+      {/* Featured Products Section */}
       <section className="py-24 bg-blue-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
           <motion.div
@@ -299,33 +325,40 @@ const Home: React.FC = () => {
           >
             <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Our Products</span>
             <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">
-              Our Best Sellers
+              Featured Products
             </h2>
-
-            <p className="text-lg text-slate-600 dark:text-slate-400 mt-4 max-w-2xl mx-auto">
-              Discover our diverse specialities ranging from confectionery to personal care - bringing you quality products that keep your business thriving
-            </p>
           </motion.div>
 
-          {/* Static Grid for All Devices */}
-          <div className="flex flex-wrap justify-center gap-8">
+          {/* Mobile View - Static Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:hidden">
             {featuredProducts.map((product, index) => (
-              <motion.div
+              <ProductCard
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)]"
-              >
-                <ProductCard
-                  product={product}
-                  index={index}
-                  onViewDetails={() => handleViewDetails(product)}
-                />
-              </motion.div>
+                product={product}
+                index={index}
+                onViewDetails={() => handleViewDetails(product)}
+              />
             ))}
+          </div>
+
+          {/* Desktop View - Carousel */}
+          <div className="relative overflow-x-hidden overflow-y-visible py-8 hidden lg:block">
+            {/* Fade edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-blue-50 dark:from-slate-900 to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-blue-50 dark:from-slate-900 to-transparent z-10" />
+            
+            {/* Seamless scrolling products */}
+            <div className="flex animate-[scroll_10s_linear_infinite] gap-8">
+              {[...featuredProducts, ...featuredProducts].map((product, index) => (
+                <div key={index} className="flex-shrink-0 w-72">
+                  <ProductCard
+                    product={product}
+                    index={index % featuredProducts.length}
+                    onViewDetails={() => handleViewDetails(product)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
           <motion.div
@@ -341,7 +374,7 @@ const Home: React.FC = () => {
         </motion.div>
       </section>
 
-      {/* Our Categories Section */}
+      {/* Global Exporter Section */}
       <section className="py-24 bg-green-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
           <motion.div
@@ -350,23 +383,86 @@ const Home: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Product Range</span>
+            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Worldwide Reach</span>
             <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">
-              Our Categories
+              Global Exporter
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 mt-4 max-w-2xl mx-auto">
-              Discover our diverse specialities ranging from confectionery to personal care - bringing you quality products that keep your business thriving
-            </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {categories.map((category, index) => (
-              <CategoryCard
-                key={category.name}
-                category={category}
-                index={index}
-              />
-            ))}
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex justify-center order-1 lg:order-1"
+            >
+              <div className="relative w-full max-w-[400px] md:max-w-[500px] lg:max-w-[600px] mx-auto">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-secondary-500/20 dark:from-primary-500/10 dark:to-secondary-500/10 rounded-full blur-3xl" />
+                <Globe className="relative w-full" />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="order-2 lg:order-2"
+            >
+              <h3 className="text-3xl md:text-4xl font-display font-bold text-slate-900 dark:text-white mb-6">
+                Connecting <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">Global Markets</span>
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 text-lg mb-8 leading-relaxed">
+                At VPS General Trading LLC, we pride ourselves on being a premier distributor of Fast-Moving Consumer Goods (FMCG) across global markets. With years of industry expertise and a commitment to excellence, we connect quality products with consumers worldwide.
+              </p>
+              <p className="text-slate-600 dark:text-slate-300 text-lg mb-12 leading-relaxed">
+                Our extensive network and strategic partnerships enable us to offer a diverse range of products while maintaining the highest standards of quality and service. We understand the dynamic nature of the FMCG sector and continuously adapt to meet evolving market demands.
+              </p>
+
+              <div className="grid grid-cols-2 gap-8">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-lg"
+                >
+                  <h4 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">1000+</h4>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium">Products Available</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-lg"
+                >
+                  <h4 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">50+</h4>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium">Countries Served</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                  className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-lg"
+                >
+                  <h4 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">24/7</h4>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium">Customer Support</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 }}
+                  className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-lg"
+                >
+                  <h4 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">12+</h4>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium">Years Experience</p>
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>

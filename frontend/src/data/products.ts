@@ -10,6 +10,34 @@ export interface Product {
 }
 
 export const categories = [
+  {
+    name: 'Confectionery',
+    image: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?auto=format&fit=crop&q=80&w=800',
+    description: 'Chocolates, candies, and sweet treats'
+  },
+  {
+    name: 'Beverages',
+    image: 'https://images.unsplash.com/photo-1437418747212-8d9709afab22?auto=format&fit=crop&q=80&w=800',
+    description: 'Soft drinks, juices, and refreshments'
+  },
+  {
+    name: 'Health-care',
+    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800',
+    description: 'Health supplements and wellness products'
+  },
+  {
+    name: 'Personal-care',
+    image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800',
+    description: 'Beauty and personal grooming essentials'
+  },
+  {
+    name: 'Toiletries',
+    image: 'https://images.unsplash.com/photo-1631730486572-226d1f595b68?auto=format&fit=crop&q=80&w=800',
+    description: 'Hygiene and bathroom essentials'
+  }
+];
+
+export const categoryNames = [
   'All Categories',
   'Confectionery',
   'Beverages',
