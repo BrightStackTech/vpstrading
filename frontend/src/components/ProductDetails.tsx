@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FaMailchimp, FaPhone, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa';
-import { FiCheck, FiTrendingUp, FiChevronLeft, FiChevronRight, FiShare, FiShoppingCart, FiStar } from 'react-icons/fi';
+import {  FaPhoneAlt, FaWhatsapp } from 'react-icons/fa';
+import {  FiChevronLeft, FiChevronRight, FiShare, FiStar } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { contactDetails } from '../data/contactdetails';
