@@ -87,9 +87,9 @@ ${formData.message}
   return (
     <div className="min-h-screen pt-20">
       <SEO 
-        title="Contact Us - VPS General Trading | Get in Touch"
-        description="Contact VPS General Trading LLC for FMCG inquiries, wholesale partnerships, or support. Reach us via phone, email, or visit our Sharjah office in UAE."
-        keywords="Contact VPS General Trading, FMCG inquiries Sharjah, business contact UAE, wholesale FMCG distributor"
+        title="Contact Us - VPS General Trading | FMCG Distributor, Importer & Exporter UAE"
+        description="Contact VPS General Trading for FMCG wholesale distribution, importing, and exporting inquiries. Partner with us for 5000+ international products from top brands like REDBULL, MONSTER, Ferrero Rocher, Nutella, Mondelez, and UNILEVER in UAE."
+        keywords="Contact VPS General Trading, FMCG inquiries Sharjah, wholesale FMCG distributor, FMCG importer UAE, FMCG exporter contact"
         ogUrl="https://vpstrading.vercel.app/contact"
         canonicalUrl="https://vpstrading.vercel.app/contact"
       />
@@ -109,7 +109,7 @@ ${formData.message}
               Let's Talk Business
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto font-light">
-              Stock your store with quality products. Get wholesale pricing today.
+              Partner with us for wholesale distribution, importing, and exporting of 5000+ premium products. Get competitive pricing today.
             </p>
           </motion.div>
         </div>

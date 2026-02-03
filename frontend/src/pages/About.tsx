@@ -56,9 +56,9 @@ const About: React.FC = () => {
   return (
     <div className="min-h-screen overflow-hidden pt-20">
       <SEO 
-        title="About Us - VPS General Trading | Leading FMCG Distributor UAE"
-        description="Learn about VPS General Trading LLC, a premier FMCG distributor in UAE since 2014. Discover our story, values, and commitment to excellence in distribution across UAE and GCC."
-        keywords="About VPS General Trading, FMCG company Sharjah, global distribution UAE, UAE distributor, VPS General Trading LLC"
+        title="About Us - VPS General Trading | Leading FMCG Distributor, Importer & Exporter in UAE"
+        description="VPS General Trading is a trusted FMCG company in Sharjah, UAE with 10+ years of experience. We specialize in wholesale distribution, importing, and exporting of 5000+ international products from top brands like REDBULL, MONSTER, Ferrero Rocher, Nutella, Mondelez, and UNILEVER."
+        keywords="About VPS General Trading, FMCG company Sharjah, FMCG importer UAE, FMCG exporter UAE, wholesale distributor UAE, VPS General Trading LLC"
         ogUrl="https://vpstrading.vercel.app/about"
         canonicalUrl="https://vpstrading.vercel.app/about"
       />
@@ -75,15 +75,15 @@ const About: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Since 2014</span>
+            <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Over 10 Years of Excellence</span>
             <h1 className="mt-4 text-4xl md:text-6xl lg:text-7xl font-display font-bold text-slate-900 dark:text-white mb-8">
               Your Trusted <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">
-                FMCG Distributor
+                FMCG Partner
               </span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed opacity-90">
-              VPS General Trading LLC supplies quality consumer goods to retailers, supermarkets, and businesses across the UAE and GCC region.
+              VPS General Trading specializes in wholesale distribution, importing, and exporting of 5000+ international products from top brands like REDBULL, MONSTER, Ferrero Rocher, Nutella, Mondelez, and UNILEVER.
             </p>
           </motion.div>
         </div>

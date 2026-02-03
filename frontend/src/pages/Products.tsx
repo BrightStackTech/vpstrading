@@ -96,9 +96,9 @@ const Products: React.FC = () => {
   return (
     <div className="min-h-screen pt-28 pb-20 bg-blue-50 dark:bg-slate-900">
       <SEO 
-        title="Our Products - VPS General Trading | FMCG Catalogue UAE"
-        description="Browse VPS General Trading's extensive range of 5000+ FMCG products from top global brands like Nestle, PepsiCo, Unilever. Find quality food, beverages, and consumer goods with wholesale pricing across UAE."
-        keywords="FMCG products UAE, wholesale products Sharjah, consumer goods distributor UAE, food products wholesale, beverage distribution Dubai"
+        title="Our Products - VPS General Trading | 5000+ FMCG Products from Top Brands"
+        description="Browse VPS General Trading's extensive range of 5000+ international FMCG products including food, confectionery, beverages, personal care, coffee, snacks, and household essentials from top brands like REDBULL, MONSTER, Ferrero Rocher, Nutella, Mondelez, and UNILEVER. Wholesale distribution, importing, and exporting across UAE."
+        keywords="FMCG products UAE, REDBULL distributor, MONSTER energy UAE, Ferrero Rocher wholesale, Nutella distributor, Mondelez UAE, UNILEVER products, wholesale FMCG Sharjah, confectionery distributor, beverage importer UAE, coffee wholesale UAE, snacks distributor"
         ogUrl="https://vpstrading.vercel.app/products"
         canonicalUrl="https://vpstrading.vercel.app/products"
       />
@@ -112,10 +112,10 @@ const Products: React.FC = () => {
         >
           <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">Product Catalog</span>
           <h1 className="mt-3 text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-4">
-            5000+ Consumer Products
+            5000+ International Products
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Browse our extensive range of FMCG products - from daily essentials to premium brands. Wholesale pricing available.
+            Discover our extensive range of food, confectionery, beverages, personal care, coffee, snacks, and household essentials from top brands like REDBULL, MONSTER, Ferrero Rocher, Nutella, Mondelez, and UNILEVER.
           </p>
         </motion.div>
 

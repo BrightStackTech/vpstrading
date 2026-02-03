@@ -105,10 +105,10 @@ const Home: React.FC = () => {
   ];
 
   const stats = [
-    { number: '800+', label: 'Retail Partners' },
+    { number: '800+', label: 'Global Partners' },
     { number: '5000+', label: 'Product SKUs' },
-    { number: '12+', label: 'Years in Trading' },
-    { number: '24-48h', label: 'Delivery Time' },
+    { number: '10+', label: 'Years Experience' },
+    { number: '24/7', label: 'Import & Export' },
   ];
 
   const containerVariants: Variants = {
@@ -137,14 +137,14 @@ const Home: React.FC = () => {
   return (
     <div className="overflow-hidden">
       <SEO 
-        title="VPS General Trading LLC LLC - FMCG Distributor in UAE"
-        description="Leading distributor of Fast-Moving Consumer Goods (FMCG) in UAE. Quality food, beverages, and consumer products from global brands with reliable distribution services across UAE and GCC."
-        keywords="FMCG distributor UAE, food distribution Sharjah, beverage distribution UAE, wholesale FMCG, VPS General Trading, VPS General Trading LLC, consumer goods UAE, FMCG Sharjah"
+        title="VPS General Trading - Leading FMCG Distributor, Importer & Exporter in UAE"
+        description="Trusted FMCG company in Sharjah, UAE with 10+ years of experience. Specializing in wholesale distribution, importing, and exporting of 5000+ international products including food, confectionery, beverages, personal care, coffee, snacks from top brands like REDBULL, MONSTER, Ferrero Rocher, Nutella, Mondelez, and UNILEVER."
+        keywords="FMCG distributor UAE, FMCG importer UAE, FMCG exporter Sharjah, wholesale FMCG, VPS General Trading, REDBULL distributor, MONSTER energy distributor, Ferrero Rocher UAE, Nutella distributor, Mondelez UAE, UNILEVER distributor, food distribution Sharjah, beverage distributor UAE"
         ogUrl="https://vpstrading.vercel.app/"
         canonicalUrl="https://vpstrading.vercel.app/"
       />
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[110vh] flex items-center justify-center overflow-hidden">
         {/* Image Carousel Background */}
         <div className="absolute inset-0 overflow-hidden">
           <AnimatePresence initial={false} custom={currentSlide}>
@@ -170,16 +170,16 @@ const Home: React.FC = () => {
           </AnimatePresence>
 
           {/* Abstract Overlay */}
-          <div className="absolute inset-0 z-20">
+          {/* <div className="absolute inset-0 z-20">
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-500/10 dark:bg-primary-900/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-[float_10s_ease-in-out_infinite]" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary-500/10 dark:bg-secondary-900/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-[float_8s_ease-in-out_infinite_reverse]" />
-          </div>
+          </div> */}
         </div>
 
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 dark:hover:bg-black/30 transition-all shadow-xl group hover:cursor-pointer"
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/30 transition-all shadow-xl group hover:cursor-pointer"
           aria-label="Previous slide"
         >
           <FaChevronLeft className="text-lg md:text-xl group-hover:-translate-x-1 transition-transform" />
@@ -187,7 +187,7 @@ const Home: React.FC = () => {
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 dark:hover:bg-black/30 transition-all shadow-xl group hover:cursor-pointer"
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/30 transition-all shadow-xl group hover:cursor-pointer"
           aria-label="Next slide"
         >
           <FaChevronRight className="text-lg md:text-xl group-hover:translate-x-1 transition-transform" />
@@ -209,28 +209,28 @@ const Home: React.FC = () => {
           ))}
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-20 z-20">
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-10 md:py-20 z-20">
           <div className="grid lg:grid-cols-1 gap-16 items-center">
             {/* Text Content */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="text-center z-10"
+              className="text-center z-10 md:mt-20"
             >
-              <motion.div variants={itemVariants} className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md text-white font-medium text-sm mb-6 border border-white/20">
-                <FaGlobe className="mr-2" /> Your FMCG Trading Partner
+              <motion.div variants={itemVariants} className="inline-flex items-center px-4 py-2 rounded-full bg-black/20 backdrop-blur-md text-white font-medium text-sm mb-6 border border-white/20">
+                <FaGlobe className="mr-2" /> Your Trusted FMCG Partner Since 10+ Years
               </motion.div>
               
               <motion.h1 variants={itemVariants} className="text-5xl lg:text-7xl font-display font-bold text-white mb-6 leading-tight drop-shadow-2xl">
-                Quality Products, <br />
+                Wholesale Distribution,<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-secondary-300 to-primary-300 bg-[length:200%_auto] animate-[gradient_4s_linear_infinite]">
-                  Delivered Daily
+                  Import & Export
                 </span>
               </motion.h1>
 
               <motion.p variants={itemVariants} className="text-xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
-                Connecting retailers, supermarkets, and businesses with premium consumer goods. From food & beverages to household essentials - we supply it all.
+                Leading FMCG company in Sharjah, UAE specializing in 5000+ international products from top brands like REDBULL, MONSTER, Ferrero Rocher, Nutella, Mondelez, and UNILEVER.
               </motion.p>
 
               <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -249,7 +249,7 @@ const Home: React.FC = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-md text-white border border-white/30 rounded-xl font-semibold hover:bg-white/20 transition-all shadow-lg hover:cursor-pointer"
+                    className="w-full sm:w-auto px-8 py-4 bg-black/20 backdrop-blur-md text-white border border-white/30 rounded-xl font-semibold hover:bg-black/30 transition-all shadow-lg hover:cursor-pointer"
                   >
                     Contact Us
                   </motion.button>
@@ -271,17 +271,17 @@ const Home: React.FC = () => {
           >
             <span className="text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-sm">About VPS General Trading</span>
             <h2 className="mt-3 text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-8">
-              Your Trusted FMCG Distribution Partner
+              Your Trusted FMCG Distribution, Import & Export Partner
             </h2>
             <div className="space-y-6 text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
               <p>
-                VPS General Trading LLC is a leading distributor of Fast-Moving Consumer Goods (FMCG) based in Sharjah, UAE. With over 12 years of industry experience, we have established ourselves as a reliable partner for retailers, supermarkets, and businesses across the UAE and GCC region.
+                VPS General Trading is a proud and trusted FMCG company based in Sharjah, UAE. With over 10 years of industry experience, we have established ourselves as one of the leading FMCG companies specializing in wholesale distribution, importing, and exporting of a wide range of top-quality international products.
               </p>
               <p>
-                Our commitment to excellence drives us to maintain strong partnerships with globally recognized brands, ensuring that our clients receive only the highest quality products. From confectionery and beverages to personal care and healthcare items, we offer a comprehensive range of 5000+ product SKUs to meet diverse market demands.
+                We offer a comprehensive range of 5000+ product SKUs including food, confectionery, beverages, personal care, coffee, snacks, and household essentials. Our commitment to excellence drives us to maintain strong partnerships with globally recognized brands such as REDBULL, MONSTER, CODE RED, Mondelez, UNILEVER, Ferrero Rocher, Nutella, and many others.
               </p>
               <p>
-                At VPS Trading, we pride ourselves on our efficient supply chain, dedicated customer support, and unwavering commitment to quality assurance. Our mission is to keep your shelves stocked with products that your customers trust and love.
+                Our mission is to be your preferred FMCG partner by ensuring consistent supply of quality consumer goods, competitive pricing, and reliable delivery across the globe. Our consistent achievement is powered by our industry expertise, commitment to innovative solutions, and global network of trusted suppliers and manufacturers.
               </p>
             </div>
           </motion.div>
@@ -359,7 +359,7 @@ const Home: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category, index) => (
               <CategoryCard
                 key={category.name}

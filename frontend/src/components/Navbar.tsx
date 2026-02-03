@@ -154,7 +154,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex justify-between items-center py-3 ">
             {/* Navigation Tabs - Left */}
-            <div className="flex items-center space-x-6 bg-white dark:bg-black rounded-full px-8 py-2 shadow-md">
+            <div className="flex items-center space-x-6 bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 rounded-full px-8 py-2 ">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -187,7 +187,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
             </div>
 
             {/* Search Bar - Right */}
-            <div className="relative w-64 shadow-md rounded-xl">
+            <div className="relative w-64 bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 rounded-lg">
               <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm" />
               <input
                 type="text"

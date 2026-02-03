@@ -12,7 +12,7 @@ interface SEOProps {
 const SEO = ({
   title,
   description,
-  keywords = "FMCG distributor UAE, food distribution Sharjah, beverage distribution UAE, wholesale FMCG, VPS General Trading, VPS General Trading LLC, consumer goods UAE, FMCG Sharjah",
+  keywords = "FMCG distributor UAE, FMCG importer UAE, FMCG exporter Sharjah, wholesale FMCG UAE, VPS General Trading, food distribution Sharjah, beverage distributor UAE, confectionery wholesale, personal care distribution, coffee distributor, snacks wholesale, REDBULL distributor, MONSTER energy, Ferrero Rocher UAE, Nutella distributor, Mondelez UAE, UNILEVER distributor",
   ogImage = "https://res.cloudinary.com/domckasfk/image/upload/v1769429221/vps_logo_pqff1u.png",
   ogUrl = "https://www.vpstrading.ae",
   canonicalUrl = "https://www.vpstrading.ae"
