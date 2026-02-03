@@ -185,6 +185,7 @@ const Home: React.FC = () => {
           <FaChevronLeft className="text-lg md:text-xl group-hover:-translate-x-1 transition-transform" />
         </button>
 
+        
         <button
           onClick={nextSlide}
           className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/30 transition-all shadow-xl group hover:cursor-pointer"
