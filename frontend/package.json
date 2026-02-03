@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
     "cobe": "^0.6.5",
