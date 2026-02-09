@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-display font-bold text-white leading-none">
-                  VPS <span className="text-primary-400"> General Trading LLC</span>
+                  VPS General Trading LLC
                 </span>
               </div>
             </Link>

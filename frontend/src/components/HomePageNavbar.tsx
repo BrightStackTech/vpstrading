@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaSun, FaMoon, FaBars, FaEnvelope, FaSearch, FaPhoneAlt } from "react-icons/fa";
+import { FaSun, FaMoon, FaBars, FaEnvelope, FaSearch, FaPhoneAlt, FaWhatsapp, FaComments, FaStream } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { contactDetails } from "../data/contactdetails";
+import TabsMenu from "./TabsMenu";
 
 interface HomePageNavbarProps {
   onMenuClick: () => void;
@@ -13,7 +14,10 @@ const HomePageNavbar: React.FC<HomePageNavbarProps> = ({ onMenuClick }) => {
   const { isDarkMode, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const location = useLocation();
+  const [searchExpanded, setSearchExpanded] = useState(false);
+  const [tabsMenuOpen, setTabsMenuOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  // const location = useLocation();
 
   // Handle scroll effect
   useEffect(() => {
@@ -24,14 +28,29 @@ const HomePageNavbar: React.FC<HomePageNavbarProps> = ({ onMenuClick }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Products", path: "/products" },
-    { name: "About Us", path: "/about" },
-    { name: "Contact Us", path: "/contact" },
-  ];
+  // Handle click outside search
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setSearchExpanded(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  const isActive = (path: string) => location.pathname === path;
+  // const navLinks = [
+  //   { name: "Home", path: "/" },
+  //   { name: "Products", path: "/products" },
+  //   { name: "About Us", path: "/about" },
+  //   { name: "Contact Us", path: "/contact" },
+  // ];
+
+  // const isActive = (path: string) => location.pathname === path;
+
+  const handleTabsMenuToggle = () => {
+    setTabsMenuOpen(!tabsMenuOpen);
+  };
 
   return (
     <nav
@@ -51,7 +70,7 @@ const HomePageNavbar: React.FC<HomePageNavbarProps> = ({ onMenuClick }) => {
             <div className={`flex items-center space-x-3 transition-all duration-500 ${
               scrolled 
                 ? "" 
-                : "bg-black/20 backdrop-blur-md rounded-2xl px-4 py-3"
+                : " px-4 py-3"
             }`}>
               <motion.div
                 animate={{ scale: scrolled ? 1 : 1.1 }}
@@ -70,10 +89,7 @@ const HomePageNavbar: React.FC<HomePageNavbarProps> = ({ onMenuClick }) => {
                 {scrolled ? (
                   <>
                     <span className="text-xl md:text-2xl font-display font-bold text-slate-800 dark:text-white leading-none transition-all duration-500">
-                      VPS{" "}
-                      <span className="text-primary-600 dark:text-primary-400">
-                        General Trading LLC
-                      </span>
+                      VPS General Trading LLC
                     </span>
                     <span className="text-xs text-slate-500 dark:text-slate-400 font-medium tracking-wider mt-1 transition-all duration-500">
                       EXCELLENCE DELIVERED
@@ -83,15 +99,15 @@ const HomePageNavbar: React.FC<HomePageNavbarProps> = ({ onMenuClick }) => {
                   <>
                     {/* Mobile: Two lines */}
                     <span className="block lg:hidden text-2xl font-display font-bold text-white drop-shadow-lg leading-tight transition-all duration-500">
-                      VPS <span className="text-primary-400">General</span>
+                      VPS General
                     </span>
-                    <span className="block lg:hidden text-2xl font-display font-bold text-primary-400 drop-shadow-lg leading-tight transition-all duration-500">
+                    <span className="block lg:hidden text-2xl font-display font-bold text-white drop-shadow-lg leading-tight transition-all duration-500">
                       Trading LLC
                     </span>
                     
                     {/* Desktop: Single line */}
                     <span className="hidden lg:block text-2xl md:text-3xl font-display font-bold text-white drop-shadow-lg leading-none transition-all duration-500">
-                      VPS <span className="text-primary-400">General Trading LLC</span>
+                      VPS General Trading LLC
                     </span>
                     
                     <span className="text-xs text-white/90 font-medium tracking-wider mt-1 transition-all duration-500">
@@ -142,33 +158,127 @@ const HomePageNavbar: React.FC<HomePageNavbarProps> = ({ onMenuClick }) => {
             </motion.button>
           </div>
 
-          {/* Desktop Right Side - Contact Info + Theme Toggle */}
+          {/* Desktop Right Side - Navigation, Search, Contact Info + Theme Toggle */}
           <div className="hidden lg:flex items-center space-x-4">
-            {/* Phone */}
-            <a 
-              href={`tel:${contactDetails.phone}`}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-full shadow-md border transition-all duration-500 ${
-                scrolled
-                  ? "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400"
-                  : "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400"
-              }`}
-            >
-              <FaPhoneAlt size={14} />
-              <span className="text-sm font-medium">{contactDetails.phoneDisplay}</span>
-            </a>
+            {/* Search Bar - Expandable */}
+            <div ref={searchRef} className="relative">
+              <AnimatePresence>
+                {searchExpanded ? (
+                  <motion.div
+                    initial={{ width: 40, opacity: 0 }}
+                    animate={{ width: 256, opacity: 1 }}
+                    exit={{ width: 40, opacity: 0 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 400, 
+                      damping: 30,
+                      opacity: { duration: 0.2 }
+                    }}
+                    className="relative bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 rounded-lg overflow-hidden"
+                  >
+                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm" />
+                    <input
+                      type="text"
+                      placeholder="Search products..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && searchQuery.trim()) {
+                          window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
+                        }
+                      }}
+                      autoFocus
+                      className="w-full pl-9 pr-4 py-2 rounded-lg bg-transparent text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none transition-all"
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setSearchExpanded(true)}
+                    className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 focus:outline-none hover:cursor-pointer transition-colors"
+                    aria-label="Search"
+                  >
+                    <FaSearch size={16} />
+                  </motion.button>
+                )}
+              </AnimatePresence>
+            </div>
 
-            {/* Email */}
-            <a 
-              href={`mailto:${contactDetails.email}`}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-full shadow-md border transition-all duration-500 ${
-                scrolled
-                  ? "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400"
-                  : "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400"
-              }`}
+            {/* Phone Button with Tooltip */}
+            <div className="relative group">
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href={`tel:${contactDetails.phone}`}
+                className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 focus:outline-none hover:cursor-pointer transition-colors"
+                aria-label="Call us"
+              >
+                <FaPhoneAlt size={16} />
+              </motion.a>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-slate-900 dark:bg-slate-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                {contactDetails.phoneDisplay}
+              </div>
+            </div>
+
+            {/* Email Button with Tooltip */}
+            <div className="relative group">
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href={`mailto:${contactDetails.email}`}
+                className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 focus:outline-none hover:cursor-pointer transition-colors"
+                aria-label="Email us"
+              >
+                <FaEnvelope size={16} />
+              </motion.a>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-slate-900 dark:bg-slate-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                {contactDetails.email}
+              </div>
+            </div>
+
+            {/* WhatsApp Button with Tooltip */}
+            <div className="relative group">
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href={`https://wa.me/${contactDetails.phone.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none hover:cursor-pointer transition-colors"
+                aria-label="WhatsApp"
+              >
+                <FaWhatsapp size={16} />
+              </motion.a>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-slate-900 dark:bg-slate-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                WhatsApp: {contactDetails.phoneDisplay}
+              </div>
+            </div>
+
+            {/* Chat Button - Redirects to Contact Page */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = '/contact'}
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 focus:outline-none hover:cursor-pointer transition-colors"
+              aria-label="Contact us"
             >
-              <FaEnvelope size={14} />
-              <span className="text-sm font-medium">{contactDetails.email}</span>
-            </a>
+              <FaComments size={16} />
+            </motion.button>
+
+            {/* 3 Lines Button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleTabsMenuToggle}
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 focus:outline-none hover:cursor-pointer transition-colors"
+              aria-label="Menu"
+            >
+              <FaStream size={16} />
+            </motion.button>
 
             {/* Theme Toggle - Desktop */}
             <motion.button
@@ -198,68 +308,8 @@ const HomePageNavbar: React.FC<HomePageNavbarProps> = ({ onMenuClick }) => {
         </div>
       </div>
 
-      {/* Child Navbar - Navigation + Search (Desktop Only) */}
-          <div className={`hidden lg:block
-          ${scrolled ? 'border-t border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 backdrop-blur-md' : 'border-white/20 bg-transparent'}
-      transition-all duration-500 bg-transparent`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-3">
-            {/* Navigation Tabs - Left */}
-            <div className={`flex items-center space-x-6 shadow-md border rounded-full px-8 py-2 transition-all duration-500 ${
-              scrolled
-                ? "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700"
-                : "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700"
-            }`}>
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className="relative px-2 py-1"
-                >
-                  <span
-                    className={`text-sm font-medium transition-colors ${
-                      isActive(link.path)
-                        ? "text-primary-600 dark:text-primary-400"
-                        : "text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400"
-                    }`}
-                  >
-                    {link.name}
-                  </span>
-                  {isActive(link.path) && (
-                    <motion.div
-                      layoutId="navbar-indicator"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500"
-                      initial={false}
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                </Link>
-              ))}
-            </div>
-
-            {/* Search Bar - Right */}
-            <div className="relative w-64 shadow-md border rounded-lg transition-all duration-500 bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sm text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && searchQuery.trim()) {
-                    window.location.href = `/products?search=${encodeURIComponent(searchQuery)}`;
-                  }
-                }}
-                className="w-full pl-9 pr-4 py-2 rounded-lg border-none text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none transition-all bg-transparent text-slate-900 dark:text-white placeholder-slate-400"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Tabs Menu Overlay */}
+      <TabsMenu isOpen={tabsMenuOpen} onClose={() => setTabsMenuOpen(false)} />
     </nav>
   );
 };
